@@ -1,0 +1,14 @@
+.popularSec {
+  padding: 2rem 2rem;
+  background: #f8f8f8;
+  /* margin-top: 2rem; */
+
+  box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
+
+  border-radius: 10px;
+  height: min-content;
+}
+
+.popularHead {
+  margin-left: 3rem;
+}
