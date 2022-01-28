@@ -5,3 +5,6 @@ import createStore from "./src/Redux/store"
 export const wrapRootElement = ({ element }) => {
   return <Provider store={createStore}>{element}</Provider>
 }
+
+
+// code added to main
