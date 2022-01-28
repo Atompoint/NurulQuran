@@ -1,0 +1,37 @@
+.recentlyAddedSec {
+  margin: 5rem 0rem;
+}
+.recentlyAddedLeftSec {
+  /* background: #f8f8f8; */
+
+  /* box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2); */
+
+  /* border-radius: 10px; */
+  height: 570px;
+  overflow-y: scroll;
+}
+::-webkit-scrollbar {
+  width: 1px;
+}
+.recentlyAddedInnerHistorySec {
+  background: #f8f8f8;
+
+  box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
+  height: 240px;
+  overflow-y: scroll;
+
+  border-radius: 10px;
+}
+.recentlyAddedInnerFavouriteSec {
+  background: #f8f8f8;
+
+  box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
+  height: 240px;
+  overflow-y: scroll;
+
+  border-radius: 10px;
+}
+
+.recentHead {
+  margin-left: 3rem;
+}

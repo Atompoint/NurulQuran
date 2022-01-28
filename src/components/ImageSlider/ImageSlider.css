@@ -1,0 +1,9 @@
+.slick-next:before {
+  color: #106b66;
+}
+.slick-prev:before {
+  color: #106b66;
+}
+.slick-slider .slick-list {
+  width: 100%;
+}

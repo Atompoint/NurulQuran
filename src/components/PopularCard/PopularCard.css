@@ -1,0 +1,18 @@
+.popularCardSection {
+  height: 100px;
+  width: 100px;
+  background: chartreuse;
+}
+.popularCard {
+  max-width: 180px;
+}
+audio::-webkit-media-controls-play-button,
+audio::-webkit-media-controls-panel {
+  background-color: #ffff;
+  /* color: #000; */
+}
+@media only screen and (max-width: 600px) {
+  .popularCard {
+    max-width: 120px;
+  }
+}

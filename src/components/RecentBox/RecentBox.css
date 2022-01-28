@@ -1,0 +1,18 @@
+.recentCard {
+  /* display: flex; */
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 1rem;
+  margin-left: 0.3rem;
+  margin-right: 1rem;
+  background: #f8f8f8;
+}
+/* .recentCard :first-child {
+  margin-top: 0rem !important;
+} */
+.icons {
+  margin-left: 1rem;
+}
+.icons > * {
+  color: #808080;
+}
