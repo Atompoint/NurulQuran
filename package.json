@@ -25,6 +25,7 @@
     "gatsby-transformer-sharp": "^4.5.0",
     "prop-types": "^15.8.0",
     "react": "^17.0.1",
+    "react-audio-player": "^0.17.0",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
     "react-redux": "^7.2.6",

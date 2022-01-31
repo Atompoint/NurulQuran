@@ -50,7 +50,7 @@ const ImageSlider = () => {
   return (
     <div>
       <Slider {...settings}>
-        {items.map(items => {
+        {items?.map(items => {
           return (
             <div>
               <Grid>

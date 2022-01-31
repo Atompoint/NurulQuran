@@ -7,6 +7,8 @@ import "./RecentlyAdded.css"
 import Typography from "@mui/material/Typography"
 import RecentBox from "../RecentBox/RecentBox"
 import HistoryBox from "../HistoryBox/HistoryBox"
+import { useEffect, useState } from "react"
+
 import { useSelector } from "react-redux"
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -84,7 +86,7 @@ const RecentlyAdded = () => {
             Recently Added
           </Typography>
           <div className="recentlyAddedLeftSec">
-            {items.map(items => {
+            {items?.map(items => {
               return (
                 <div>
                   <Grid>

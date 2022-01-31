@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useState, useEffect } from "react"
 import { styled, useTheme, alpha } from "@mui/material/styles"
 import Box from "@mui/material/Box"
 import Drawer from "@mui/material/Drawer"
@@ -19,11 +19,17 @@ import InboxIcon from "@mui/icons-material/MoveToInbox"
 import MailIcon from "@mui/icons-material/Mail"
 import InputBase from "@mui/material/InputBase"
 import SearchIcon from "@mui/icons-material/Search"
+import { useStaticQuery, graphql } from "gatsby"
+import Collapse from "@mui/material/Collapse"
+import StarBorder from "@mui/icons-material/StarBorder"
+import ListItemButton from "@mui/material/ListItemButton"
 import "./Muidrawer.css"
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
+import ExpandLess from "@mui/icons-material/ExpandLess"
+import ExpandMore from "@mui/icons-material/ExpandMore"
 
 const drawerWidth = 240
 
@@ -115,10 +121,67 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 const MuiDrawer = () => {
+  const data = useStaticQuery(graphql`
+    query MenuBarQuery {
+      allContentfulCategories {
+        edges {
+          node {
+            categoryName
+            subCategoryName {
+              categoryName
+              pageData {
+                name
+              }
+            }
+            isParent
+          }
+        }
+      }
+    }
+  `)
   const theme = useTheme()
   const [open, setOpen] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null)
   const openMenuItem = Boolean(anchorEl)
+  const [menuItems, setMenuItems] = useState([])
+  const [parentItems, setParentItems] = useState([])
+  const [openMenuDropdown, setOpenMenuDropdown] = React.useState(true)
+
+  const handleDropdown = () => {
+    setOpenMenuDropdown(!openMenuDropdown)
+  }
+
+  // const parentCategoreys = []
+  // setParentCatgorye = data.allContentfulCategories.filter(
+  //   item => item === item.isParent
+  // )
+  // const subCategories = []
+
+  // const subCategories = parentCategory => {
+  //   if (parentCategory.subCategory.length > 0) {
+  //     setSubCatogry(parentCategory.subCategory)
+  //   }
+  //   return []
+  // }
+
+  // subCategoryies("Quran")
+
+  useEffect(() => {
+    setMenuItems(data?.allContentfulCategories?.edges)
+    if (menuItems.length > 0) {
+      // const postIds = menuItems.map(({ node: item }) => item.categoryName)
+      const filteredParentItems = menuItems.filter(
+        ({ node: item }) => item.isParent === true
+      )
+      setParentItems(filteredParentItems)
+      console.log("**", filteredParentItems)
+    }
+  }, [menuItems])
+
+  // var filteredData = menuItems.filter(function (obj) {
+  //   return console.log(obj)
+  // })
+  // console.log("parent is", filteredData)
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
   }
@@ -133,6 +196,8 @@ const MuiDrawer = () => {
   const handleDrawerClose = () => {
     setOpen(false)
   }
+  console.log("menu Bar ", menuItems)
+
   return (
     <div>
       <Box sx={{ display: "flex" }}>
@@ -196,18 +261,46 @@ const MuiDrawer = () => {
           </DrawerHeader>
           <Divider />
           <List>
-            {[
-              "Ramadan",
-              "Sunnah",
-              "Quran",
-              "Al-Quran",
-              "Hadith",
-              "Seerah",
-              "Hereafter",
-            ].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemText primary={text} />
+            {/* {parentItems.map((item, index) => (
+              <ListItem button key={item.node.categoryName}>
+                <ListItemText primary={item.node.categoryName} />
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    <ListItemButton sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <StarBorder />
+                      </ListItemIcon>
+                      <ListItemText primary="Starred" />
+                    </ListItemButton>
+                  </List>
+                </Collapse>
               </ListItem>
+            ))} */}
+
+            {parentItems.map((item, index) => (
+              <>
+                <ListItemButton onClick={handleDropdown}>
+                  <ListItemText primary={item.node.categoryName} />
+                  {item.node.subCategoryName?.length > 0 &&
+                    (openMenuDropdown ? <ExpandLess /> : <ExpandMore />)}
+                </ListItemButton>
+                {item.node.subCategoryName?.length > 0 &&
+                  item.node.subCategoryName?.map(subCategory => {
+                    return (
+                      <Collapse
+                        in={openMenuDropdown}
+                        timeout="auto"
+                        unmountOnExit
+                      >
+                        <List component="div" disablePadding>
+                          <ListItemButton sx={{ pl: 4 }}>
+                            <ListItemText primary={subCategory.categoryName} />
+                          </ListItemButton>
+                        </List>
+                      </Collapse>
+                    )
+                  })}
+              </>
             ))}
           </List>
         </Drawer>
