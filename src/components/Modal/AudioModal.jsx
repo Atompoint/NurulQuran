@@ -44,7 +44,7 @@ const AudioModal = ({ openModal, name, audio, setIsOpen }) => {
               color="#106B66"
               sx={{ fontWeight: "bold" }}
             >
-              Category
+              {name}
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
               {name}

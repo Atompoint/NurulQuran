@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography"
 import RecentBox from "../RecentBox/RecentBox"
 import HistoryBox from "../HistoryBox/HistoryBox"
 import { useEffect, useState } from "react"
-
 import { useSelector } from "react-redux"
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -17,59 +16,12 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }))
-const product = [
-  {
-    productname: "Call Ana Care  installation",
-    time: "9:00 Am",
-    avatar: "https://avatars.githubusercontent.com/u/1674036?s=40&v=4",
-    background: "#ECBB3D",
-  },
-  {
-    productname: "Product Delievery  time",
-    time: "Today",
-    avatar: "https://avatars.githubusercontent.com/u/1674036?s=40&v=4",
-    background: "#80C7D0",
-  },
-  {
-    productname: "Follow up with Cambria",
-    time: "Today",
-    avatar: "https://avatars.githubusercontent.com/u/1674036?s=40&v=4",
-    background: "#F98341",
-  },
-  {
-    productname: "Brochure  Review",
-    time: "Tomorrow",
-    avatar: "https://avatars.githubusercontent.com/u/1674036?s=40&v=4",
-    background: "#B1A8DE",
-  },
-  {
-    productname: "Brian Noble Pick Up",
-    time: "2:00 Pm",
-    avatar: "https://avatars.githubusercontent.com/u/1674036?s=40&v=4",
-    background: "#80C7D0",
-  },
-  {
-    productname: "Call Ana Care  installation",
-    time: "9:00 Am",
-    avatar: "https://avatars.githubusercontent.com/u/1674036?s=40&v=4",
-    background: "#ECBB3D",
-  },
-  {
-    productname: "Product Delievery  time",
-    time: "Today",
-    avatar: "https://avatars.githubusercontent.com/u/1674036?s=40&v=4",
-    background: "#80C7D0",
-  },
-  {
-    productname: "Follow up with Cambria",
-    time: "Today",
-    avatar: "https://avatars.githubusercontent.com/u/1674036?s=40&v=4",
-    background: "#F98341",
-  },
-]
 
 const RecentlyAdded = () => {
   const allItems = useSelector(state => state.items.value)
+  const historyItems = useSelector(state => state.isPlayed.value)
+  const favouriteItems = useSelector(state => state.isFavourite.value)
+
   const items = allItems[0]
 
   return (
@@ -109,7 +61,7 @@ const RecentlyAdded = () => {
               History
             </Typography>
             <div className="recentlyAddedInnerHistorySec">
-              {product.map(items => {
+              {historyItems?.map(items => {
                 return (
                   <div>
                     <Grid>
@@ -132,7 +84,7 @@ const RecentlyAdded = () => {
               Favourite
             </Typography>
             <div className="recentlyAddedInnerFavouriteSec">
-              {product.map(items => {
+              {favouriteItems?.map(items => {
                 return (
                   <div>
                     <Grid>

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useTheme } from "@mui/material/styles"
 import Box from "@mui/material/Box"
 import Card from "@mui/material/Card"
@@ -18,14 +18,29 @@ import TwitterIcon from "@mui/icons-material/Twitter"
 import IconButton from "@mui/material/IconButton"
 import Tooltip from "@mui/material/Tooltip"
 import AudioModal from "../Modal/AudioModal"
-
+import { useDispatch, useSelector } from "react-redux"
+import { setIsPlayedItems } from "../../Redux/historyItems"
+import {
+  setIsFavouriteItems,
+  setIsRemoveFavouriteItems,
+} from "../../Redux/favouriteItems"
+import DeleteIcon from "@mui/icons-material/Delete"
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline"
 import "./RecentBox.css"
 
 const RecentBox = ({ item }) => {
+  const dispatch = useDispatch()
+  const historyItems = useSelector(state => state.isPlayed.value)
+
   const [isOpen, setIsOpen] = useState(false)
+  const [isFav, setIsFav] = useState(true)
+
   const handleOpen = () => {
     setIsOpen(true)
+    let obj = historyItems.find(obj => obj?.node?.name === item.node.name)
+    if (!obj) {
+      dispatch(setIsPlayedItems(item))
+    }
   }
   const { name, image, audio } = item.node
 
@@ -34,6 +49,17 @@ const RecentBox = ({ item }) => {
 
   const handleChange = () => {
     setChecked(prev => !prev)
+  }
+  const setFavourite = () => {
+    // let obj = historyItems.find(obj => obj?.node?.name === item.node.name)
+    console.log("item is", item)
+    dispatch(setIsFavouriteItems(item))
+    setIsFav(!isFav)
+  }
+  const removeFavourite = () => {
+    setIsFav(!isFav)
+    dispatch(setIsRemoveFavouriteItems(item))
+    // console.log("###", item)
   }
 
   return (
@@ -78,7 +104,11 @@ const RecentBox = ({ item }) => {
               </Tooltip>
               <Tooltip title="Add to favourite">
                 <IconButton>
-                  <FavoriteBorderIcon />
+                  {isFav ? (
+                    <FavoriteBorderIcon onClick={setFavourite} />
+                  ) : (
+                    <DeleteIcon onClick={removeFavourite} />
+                  )}
                 </IconButton>
               </Tooltip>
               <Tooltip title="Download online">

@@ -1,11 +1,9 @@
 import * as React from "react"
-import { useEffect, useState } from "react"
-import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
+import { useEffect } from "react"
 import { graphql } from "gatsby"
 import { PopularSection } from "../components/PopularSection/PopularSection"
 import RecentlyAdded from "../components/RecentlyAdded/RecentlyAdded"
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 import { fetchItems } from "../Redux/allItems"
 
 export const query = graphql`

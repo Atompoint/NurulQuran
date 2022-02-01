@@ -145,26 +145,14 @@ const MuiDrawer = () => {
   const openMenuItem = Boolean(anchorEl)
   const [menuItems, setMenuItems] = useState([])
   const [parentItems, setParentItems] = useState([])
-  const [openMenuDropdown, setOpenMenuDropdown] = React.useState(true)
+  const [openMenuDropdown, setOpenMenuDropdown] = React.useState({})
 
-  const handleDropdown = () => {
-    setOpenMenuDropdown(!openMenuDropdown)
+  const handleDropdown = categoryName => {
+    setOpenMenuDropdown(prevState => ({
+      ...prevState,
+      [categoryName]: !prevState[categoryName],
+    }))
   }
-
-  // const parentCategoreys = []
-  // setParentCatgorye = data.allContentfulCategories.filter(
-  //   item => item === item.isParent
-  // )
-  // const subCategories = []
-
-  // const subCategories = parentCategory => {
-  //   if (parentCategory.subCategory.length > 0) {
-  //     setSubCatogry(parentCategory.subCategory)
-  //   }
-  //   return []
-  // }
-
-  // subCategoryies("Quran")
 
   useEffect(() => {
     setMenuItems(data?.allContentfulCategories?.edges)
@@ -178,10 +166,6 @@ const MuiDrawer = () => {
     }
   }, [menuItems])
 
-  // var filteredData = menuItems.filter(function (obj) {
-  //   return console.log(obj)
-  // })
-  // console.log("parent is", filteredData)
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
   }
@@ -261,34 +245,24 @@ const MuiDrawer = () => {
           </DrawerHeader>
           <Divider />
           <List>
-            {/* {parentItems.map((item, index) => (
-              <ListItem button key={item.node.categoryName}>
-                <ListItemText primary={item.node.categoryName} />
-                <Collapse in={open} timeout="auto" unmountOnExit>
-                  <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}>
-                      <ListItemIcon>
-                        <StarBorder />
-                      </ListItemIcon>
-                      <ListItemText primary="Starred" />
-                    </ListItemButton>
-                  </List>
-                </Collapse>
-              </ListItem>
-            ))} */}
-
             {parentItems.map((item, index) => (
               <>
-                <ListItemButton onClick={handleDropdown}>
+                <ListItemButton
+                  onClick={() => handleDropdown(item.node.categoryName)}
+                >
                   <ListItemText primary={item.node.categoryName} />
                   {item.node.subCategoryName?.length > 0 &&
-                    (openMenuDropdown ? <ExpandLess /> : <ExpandMore />)}
+                    (openMenuDropdown[item.node.categoryName] ? (
+                      <ExpandLess />
+                    ) : (
+                      <ExpandMore />
+                    ))}
                 </ListItemButton>
                 {item.node.subCategoryName?.length > 0 &&
                   item.node.subCategoryName?.map(subCategory => {
                     return (
                       <Collapse
-                        in={openMenuDropdown}
+                        in={openMenuDropdown[item.node.categoryName]}
                         timeout="auto"
                         unmountOnExit
                       >
