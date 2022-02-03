@@ -20,8 +20,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `Nurul-Quran`,
+        short_name: `Nurul-Quran`,
         start_url: `/`,
         background_color: `#663399`,
 
@@ -29,6 +29,7 @@ module.exports = {
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
     },
+    `gatsby-plugin-offline`,
     {
       resolve: `gatsby-plugin-layout`,
       options: {

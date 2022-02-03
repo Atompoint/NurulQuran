@@ -5,6 +5,7 @@ import Box from "@mui/material/Box"
 import Modal from "@mui/material/Modal"
 import Fade from "@mui/material/Fade"
 import Typography from "@mui/material/Typography"
+import CardMedia from "@mui/material/CardMedia"
 
 const style = {
   position: "absolute",
@@ -18,8 +19,14 @@ const style = {
   p: 4,
 }
 
-const AudioModal = ({ openModal, name, audio, setIsOpen }) => {
-  const handleClose = () => setIsOpen(false)
+const AudioModal = ({ openModal, name, audio, setIsOpen, setIsPlay }) => {
+  const handleClose = () => {
+    setIsOpen(false)
+
+    if (setIsPlay) {
+      setIsPlay(false)
+    }
+  }
   const [open, setOpen] = React.useState(openModal)
 
   return (
@@ -37,18 +44,28 @@ const AudioModal = ({ openModal, name, audio, setIsOpen }) => {
       >
         <Fade in={open}>
           <Box sx={style} className="modalBox">
-            <Typography
-              id="transition-modal-title"
-              variant="h6"
-              component="div"
-              color="#106B66"
-              sx={{ fontWeight: "bold" }}
-            >
-              {name}
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              {name}
-            </Typography>
+            <div style={{ display: "flex" }}>
+              <CardMedia
+                component="img"
+                sx={{ width: 80, height: 80 }}
+                image="https://add.nurulquran.com/images/song/164241245230.png"
+                alt="Nurul Quran"
+              />
+              <div style={{ marginLeft: "1rem" }}>
+                <Typography
+                  id="transition-modal-title"
+                  variant="h6"
+                  component="div"
+                  color="#106B66"
+                  sx={{ fontWeight: "bold", marginTop: "0rem" }}
+                >
+                  {name}
+                </Typography>
+                <Typography id="transition-modal-description" sx={{ mt: 0 }}>
+                  {name}
+                </Typography>
+              </div>
+            </div>
             <ReactAudioPlayer src={audio} autoPlay controls />
           </Box>
         </Fade>

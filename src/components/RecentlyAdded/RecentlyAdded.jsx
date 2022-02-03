@@ -21,7 +21,6 @@ const RecentlyAdded = () => {
   const allItems = useSelector(state => state.items.value)
   const historyItems = useSelector(state => state.isPlayed.value)
   const favouriteItems = useSelector(state => state.isFavourite.value)
-
   const items = allItems[0]
 
   return (

@@ -30,6 +30,8 @@ import MenuItem from "@mui/material/MenuItem"
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
 import ExpandLess from "@mui/icons-material/ExpandLess"
 import ExpandMore from "@mui/icons-material/ExpandMore"
+import favourite from "../../pages/favourite"
+import { Link } from "gatsby"
 
 const drawerWidth = 240
 
@@ -199,9 +201,17 @@ const MuiDrawer = () => {
             </IconButton>
             <div className="header">
               <div>
-                <Typography variant="h6" noWrap component="div">
-                  NurulQuran
-                </Typography>
+                <Link
+                  to="/"
+                  style={{
+                    color: `white`,
+                    textDecoration: `none`,
+                  }}
+                >
+                  <Typography variant="h6" noWrap component="div">
+                    NurulQuran
+                  </Typography>
+                </Link>
               </div>
               <div>
                 <Search>
@@ -215,10 +225,17 @@ const MuiDrawer = () => {
                 </Search>
               </div>
             </div>
-
-            <FavoriteBorderIcon
-              sx={{ padding: "0rem 0.5rem", fontSize: "2.5rem" }}
-            />
+            <Link
+              to="favourite"
+              style={{
+                color: `white`,
+                textDecoration: `none`,
+              }}
+            >
+              <FavoriteBorderIcon
+                sx={{ padding: "0rem 0.5rem", fontSize: "2.5rem" }}
+              />
+            </Link>
           </Toolbar>
         </AppBar>
         <Drawer

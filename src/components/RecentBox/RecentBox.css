@@ -12,6 +12,16 @@
 } */
 .icons {
   margin-left: 1rem;
+  display: flex;
+}
+.shareIcons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.shareIcons > * {
+  margin-left: 0.5rem;
+  font-size: 1.5rem;
 }
 .icons > * {
   color: #808080;

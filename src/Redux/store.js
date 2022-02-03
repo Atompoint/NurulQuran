@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit"
 import counterSlice from "./allItems"
 import isPlayedReducer from "./historyItems"
 import isFavouriteReducer from "./favouriteItems"
+import isCacheReducer from "./cacheItems"
 
 import {
   persistStore,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   items: counterSlice,
   isPlayed: isPlayedReducer,
   isFavourite: isFavouriteReducer,
+  isCached: isCacheReducer,
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
