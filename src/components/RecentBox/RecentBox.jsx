@@ -48,6 +48,7 @@ const RecentBox = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isFav, setIsFav] = useState(true)
   const [isCache, setIsCache] = useState(true)
+  const [isAudio, setIsAudio] = useState(undefined)
 
   const [isPlay, setIsPlay] = useState(false)
   const [open, setOpen] = useState(false)
@@ -126,9 +127,66 @@ const RecentBox = ({ item }) => {
 
   const setCache = () => {
     // let obj = historyItems.find(obj => obj?.node?.name === item.node.name)
-    console.log("item is", item)
-    dispatch(setIsCacheItems(item))
-    setIsCache(!isCache)
+    // console.log("item is", item)
+    // dispatch(setIsCacheItems(item))
+    // setIsCache(!isCache)
+    fetch(audio.file.url).then(response => {
+      response.blob().then(async blob => {
+        let url = window.URL.createObjectURL(blob)
+        const newBlob = await new Response(blob).arrayBuffer()
+        const newbase65 = _arrayBufferToBase64(newBlob)
+        // addDataIntoCache("Audio", "https://localhost:8000", newbase65)
+        localStorage.setItem("Audio", newbase65)
+        const aud = localStorage.getItem("Audio")
+
+        const base64toArray = base64ToArrayBuffer(aud)
+        const audioObj = new Audio(base64toArray)
+        setIsAudio(audioObj)
+        // audioObj.play()
+        // audioObj.addEventListener("canplaythrough", event => {
+        //   /* the audio is now playable; play it if permissions allow */
+        //   audioObj.play()
+        // })
+
+        console.log("Audio oobj", audioObj)
+        console.log("************", base64toArray)
+      })
+    })
+  }
+
+  function _arrayBufferToBase64(buffer) {
+    var binary = ""
+    var bytes = new Uint8Array(buffer)
+    var len = bytes.byteLength
+    for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i])
+    }
+    return window.btoa(binary)
+  }
+
+  function base64ToArrayBuffer(base64) {
+    let binaryString = window.atob(base64)
+    let binaryLength = binaryString.length
+    let bytes = new Uint8Array(binaryLength)
+
+    for (let i = 0; i < binaryLength; i++) {
+      let ascii = binaryString.charCodeAt(i)
+      bytes[i] = ascii
+    }
+    return bytes
+  }
+
+  const addDataIntoCache = (cacheName, url, response) => {
+    // Converting our response into Actual Response form
+    const data = new Response(JSON.stringify(response))
+
+    if ("caches" in window) {
+      // Opening given cache and putting our data into it
+      caches.open(cacheName).then(cache => {
+        cache.put(url, data)
+        alert("Data Added into cache!")
+      })
+    }
   }
   const removeCache = () => {
     setIsCache(!isCache)
@@ -241,6 +299,11 @@ const RecentBox = ({ item }) => {
           message="Copied"
         />
       </Card>
+
+      <audio>
+        <source src={isAudio} type="audio/mpeg" />
+        No audio support.
+      </audio>
     </div>
   )
 }
