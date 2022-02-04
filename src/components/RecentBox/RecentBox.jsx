@@ -125,6 +125,7 @@ const RecentBox = ({ item }) => {
     dispatch(setIsRemoveFavouriteItems(item))
   }
 
+  //this is the method which triggers on the click of cache button//
   const setCache = () => {
     // let obj = historyItems.find(obj => obj?.node?.name === item.node.name)
     // console.log("item is", item)
@@ -133,23 +134,27 @@ const RecentBox = ({ item }) => {
     fetch(audio.file.url).then(response => {
       response.blob().then(async blob => {
         let url = window.URL.createObjectURL(blob)
+
+        //converting blob to array buffer//
         const newBlob = await new Response(blob).arrayBuffer()
+
+        //converting array buffet to base64//
         const newbase65 = _arrayBufferToBase64(newBlob)
-        // addDataIntoCache("Audio", "https://localhost:8000", newbase65)
+
+        //setting base64 value to local Storage//
         localStorage.setItem("Audio", newbase65)
-        const aud = localStorage.getItem("Audio")
 
-        const base64toArray = base64ToArrayBuffer(aud)
+        //Retrieving base64 value from local Storage//
+        const getAudio = localStorage.getItem("Audio")
+
+        //Converting base64 to Array Buffer//
+        const base64toArray = base64ToArrayBuffer(getAudio)
+
+        //load the ArrayBuffer into an Audio object--> returning an audio tag with//
         const audioObj = new Audio(base64toArray)
-        setIsAudio(audioObj)
-        // audioObj.play()
-        // audioObj.addEventListener("canplaythrough", event => {
-        //   /* the audio is now playable; play it if permissions allow */
-        //   audioObj.play()
-        // })
 
-        console.log("Audio oobj", audioObj)
-        console.log("************", base64toArray)
+        //trying to play audioObj but not working
+        audioObj.play()
       })
     })
   }
@@ -176,18 +181,8 @@ const RecentBox = ({ item }) => {
     return bytes
   }
 
-  const addDataIntoCache = (cacheName, url, response) => {
-    // Converting our response into Actual Response form
-    const data = new Response(JSON.stringify(response))
+  //-------------------End ------------------//
 
-    if ("caches" in window) {
-      // Opening given cache and putting our data into it
-      caches.open(cacheName).then(cache => {
-        cache.put(url, data)
-        alert("Data Added into cache!")
-      })
-    }
-  }
   const removeCache = () => {
     setIsCache(!isCache)
     dispatch(removeCacheItems(item))
@@ -299,11 +294,6 @@ const RecentBox = ({ item }) => {
           message="Copied"
         />
       </Card>
-
-      <audio>
-        <source src={isAudio} type="audio/mpeg" />
-        No audio support.
-      </audio>
     </div>
   )
 }
