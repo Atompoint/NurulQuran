@@ -25,4 +25,35 @@
 }
 .icons > * {
   color: #808080;
+  
+}
+
+@media only screen and (max-width: 500px) {
+  .recentCard {
+  
+    margin-left: 0rem;
+    margin-right: 0rem;
+  
+  }
+  .icons > * {
+    color: #808080;
+    padding: 0rem 0.1rem !important;
+    /* font-size: 0.5rem !important; */
+    /* height: 0.5em !important; */
+
+    
+  }
+  .shareIcons {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start !important;
+  }
+  .shareIcons > * {
+    margin-left: 0.2rem !important;
+    /* font-size: 2rem !important; */
+    height: 0.5em !important;
+  }
+  
+  
+  
 }

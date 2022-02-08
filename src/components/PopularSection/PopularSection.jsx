@@ -3,14 +3,19 @@ import Grid from "@mui/material/Grid"
 import ImageSlider from "../ImageSlider/ImageSlider"
 import "./PopularSection.css"
 import Typography from "@mui/material/Typography"
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 export const PopularSection = () => {
+const matches = useMediaQuery('(min-width:600px)');
+
   return (
     <div className="popularSec">
       <Grid container spacing={2}>
         <div className="popularHead">
           <Typography
-            variant="h4"
+            className="PopularHeading"
+            variant={matches ? "h4" : "h5"}
             gutterBottom
             component="div"
             color="#106B66"

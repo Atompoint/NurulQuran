@@ -8,7 +8,17 @@
   border-radius: 10px;
   height: min-content;
 }
-
-.popularHead {
+.PopularHeading{
+  /* font-size: 2.125rem; */
   margin-left: 3rem;
+}
+
+
+@media only screen and (max-width: 500px) {
+  .PopularHeading {
+    /* font-size: 1.8rem; */
+    margin-left: 1rem;
+  }
+  
+  
 }

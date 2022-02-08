@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
 import ChevronRightIcon from "@mui/icons-material/ChevronRight"
+import HomeIcon from '@mui/icons-material/Home';
 import ListItem from "@mui/material/ListItem"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
@@ -31,6 +32,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
 import ExpandLess from "@mui/icons-material/ExpandLess"
 import ExpandMore from "@mui/icons-material/ExpandMore"
 import favourite from "../../pages/favourite"
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link } from "gatsby"
 
 const drawerWidth = 240
@@ -122,7 +124,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-const MuiDrawer = () => {
+const MuiDrawer = ({setMargin}) => {
   const data = useStaticQuery(graphql`
     query MenuBarQuery {
       allContentfulCategories {
@@ -148,6 +150,8 @@ const MuiDrawer = () => {
   const [menuItems, setMenuItems] = useState([])
   const [parentItems, setParentItems] = useState([])
   const [openMenuDropdown, setOpenMenuDropdown] = React.useState({})
+  const matches = useMediaQuery('(min-width:600px)');
+
 
   const handleDropdown = categoryName => {
     setOpenMenuDropdown(prevState => ({
@@ -177,10 +181,13 @@ const MuiDrawer = () => {
 
   const handleDrawerOpen = () => {
     setOpen(true)
+    setMargin(true)
   }
 
   const handleDrawerClose = () => {
     setOpen(false)
+    setMargin(false)
+
   }
   console.log("menu Bar ", menuItems)
 
@@ -208,9 +215,27 @@ const MuiDrawer = () => {
                     textDecoration: `none`,
                   }}
                 >
-                  <Typography variant="h6" noWrap component="div">
-                    NurulQuran
-                  </Typography>
+                  
+                  {
+                    matches ? (
+                      <Typography variant="h6" noWrap component="div">
+                      NurulQuran
+                    </Typography>
+                    )
+                    :
+                    <HomeIcon
+                    sx={{marginTop:"0.3rem"}}
+              
+                    
+                    />
+
+                    
+                  }
+                   
+
+                    
+                  
+                  
                 </Link>
               </div>
               <div>

@@ -9,6 +9,8 @@ import RecentBox from "../RecentBox/RecentBox"
 import HistoryBox from "../HistoryBox/HistoryBox"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -22,13 +24,15 @@ const RecentlyAdded = () => {
   const historyItems = useSelector(state => state.isPlayed.value)
   const favouriteItems = useSelector(state => state.isFavourite.value)
   const items = allItems[0]
+const matches = useMediaQuery('(min-width:600px)');
+
 
   return (
     <div className="recentlyAddedSec">
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xl={6} lg={6} md={12} xs={12}>
           <Typography
-            variant="h4"
+            variant={matches ? "h4" :"h5" }
             gutterBottom
             component="div"
             color="#106B66"
@@ -51,11 +55,11 @@ const RecentlyAdded = () => {
         <Grid item xl={6} lg={6} md={12} xs={12} container rowSpacing={1}>
           <Grid item xs={12}>
             <Typography
-              variant="h4"
+              variant={matches ? "h4" :"h5"}
               gutterBottom
               component="div"
               color="#106B66"
-              sx={{ fontWeight: "bold" }}
+              sx={{ fontWeight: "bold" , marginTop:"1rem" }}
             >
               History
             </Typography>
@@ -74,7 +78,7 @@ const RecentlyAdded = () => {
 
           <Grid item xs={12}>
             <Typography
-              variant="h4"
+              variant={matches ? "h4" : "h5"}
               gutterBottom
               component="div"
               color="#106B66"

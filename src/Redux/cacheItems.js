@@ -12,7 +12,11 @@ export const counterSlice = createSlice({
       return {
         ...state,
         value: [...state.value, action.payload],
+        
+
+
       }
+
     },
     removeCacheItems: (state, action) => {
       return {

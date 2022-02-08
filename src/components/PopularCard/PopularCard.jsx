@@ -28,12 +28,13 @@ const PopularCard = ({ item }) => {
       )}
       <Card className="popularCard" onClick={handleOpen}>
         <CardMedia
+        className="cardMedia"
           component="img"
-          height="120"
+         
           image={image.file.url}
           alt="Nurul Quran"
         />
-        <CardContent>
+        <CardContent className="cardContent">
           <Tooltip title={name}>
             <Typography variant="body1" color="text.secondary" align="center">
               {/* {name} */}

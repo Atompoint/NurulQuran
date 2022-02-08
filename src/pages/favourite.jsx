@@ -4,7 +4,7 @@ import FavouriteSection from "../components/FavouriteSection/FavouriteSection"
 
 const favourite = () => {
   return (
-    <div>
+    <div style={{minHeight:"440px"}}>
       <FavouriteSection />
     </div>
   )

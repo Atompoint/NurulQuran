@@ -14,8 +14,16 @@ audio::-webkit-media-controls-panel {
   background-color: #ffff;
   /* color: #000; */
 }
-@media only screen and (max-width: 600px) {
+.cardMedia{
+  height: 120px;
+}
+@media only screen and (max-width: 500px) {
   .popularCard {
-    max-width: 120px;
+    max-width: 150px;
+    height: 180px;
   }
+  .cardMedia{
+    height: 100px;
+  }
+  
 }

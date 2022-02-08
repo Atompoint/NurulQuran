@@ -9,6 +9,7 @@
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.3.0",
     "@mui/material": "^5.3.0",
+    "@mui/styles": "^5.3.0",
     "@reduxjs/toolkit": "^1.7.1",
     "contentful": "^9.1.5",
     "gatsby": "^4.5.4",

@@ -42,6 +42,13 @@ const ImageSlider = () => {
           slidesToScroll: 1,
         },
       },
+      {
+        breakpoint: 650,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
     ],
   }
   const allItems = useSelector(state => state.items?.value || [])

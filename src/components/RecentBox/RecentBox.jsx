@@ -21,6 +21,8 @@ import Tooltip from "@mui/material/Tooltip"
 import AudioModal from "../Modal/AudioModal"
 import { useDispatch, useSelector } from "react-redux"
 import { setIsPlayedItems } from "../../Redux/historyItems"
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 import img from "../../images/gatsby-icon.png"
 import {
   counterSlice,
@@ -49,6 +51,9 @@ const RecentBox = ({ item }) => {
   const [isFav, setIsFav] = useState(true)
   const [isCache, setIsCache] = useState(true)
   const [isAudio, setIsAudio] = useState(undefined)
+  const [audioPlaylist, setAudioPlatlist] = useState([])
+
+
 
   const [isPlay, setIsPlay] = useState(false)
   const [open, setOpen] = useState(false)
@@ -56,6 +61,8 @@ const RecentBox = ({ item }) => {
   const { name, image, audio } = item.node
   const URL = `http:${audio.file.url}`
   const theme = useTheme()
+const matches = useMediaQuery('(min-width:600px)');
+
 
   useEffect(() => {
     let foundFavItem = favouriteItems.find(
@@ -127,37 +134,39 @@ const RecentBox = ({ item }) => {
 
   //this is the method which triggers on the click of cache button//
   const setCache = () => {
-    // let obj = historyItems.find(obj => obj?.node?.name === item.node.name)
-    // console.log("item is", item)
-    // dispatch(setIsCacheItems(item))
-    // setIsCache(!isCache)
-    fetch(audio.file.url).then(response => {
-      response.blob().then(async blob => {
-        let url = window.URL.createObjectURL(blob)
+  
+     fetch(audio.file.url).then(response => {
+       response.blob().then(async blob => {
+        //  let url = window.URL.createObjectURL(blob)
+         console.log("blob" , blob)
+       
 
-        //converting blob to array buffer//
-        const newBlob = await new Response(blob).arrayBuffer()
+         //converting blob to array buffer//
+         const newBlob = await new Response(blob).arrayBuffer()
+         console.log("new Blob is" , newBlob)
 
-        //converting array buffet to base64//
-        const newbase65 = _arrayBufferToBase64(newBlob)
 
-        //setting base64 value to local Storage//
-        localStorage.setItem("Audio", newbase65)
+        // //converting array buffet to base64//
+         const newbase65 = _arrayBufferToBase64(newBlob)
+        console.log("base64" , newbase65)
 
-        //Retrieving base64 value from local Storage//
-        const getAudio = localStorage.getItem("Audio")
 
-        //Converting base64 to Array Buffer//
-        const base64toArray = base64ToArrayBuffer(getAudio)
+        //  //setting base64 value to local Storage//
+       
 
-        //load the ArrayBuffer into an Audio object--> returning an audio tag with//
-        const audioObj = new Audio(base64toArray)
-
-        //trying to play audioObj but not working
-        audioObj.play()
-      })
-    })
+        const obj={
+          fileName:item.node.name,
+          fileData: newbase65
+        }
+        dispatch(setIsCacheItems(item))
+        localStorage.setItem(obj.fileName, JSON.stringify(obj))
+        setIsCache(!isCache)
+        
+        
+       })
+     })
   }
+  
 
   function _arrayBufferToBase64(buffer) {
     var binary = ""
@@ -169,23 +178,15 @@ const RecentBox = ({ item }) => {
     return window.btoa(binary)
   }
 
-  function base64ToArrayBuffer(base64) {
-    let binaryString = window.atob(base64)
-    let binaryLength = binaryString.length
-    let bytes = new Uint8Array(binaryLength)
-
-    for (let i = 0; i < binaryLength; i++) {
-      let ascii = binaryString.charCodeAt(i)
-      bytes[i] = ascii
-    }
-    return bytes
-  }
+  
 
   //-------------------End ------------------//
 
   const removeCache = () => {
     setIsCache(!isCache)
     dispatch(removeCacheItems(item))
+    localStorage.removeItem(name);
+
     // console.log("###", item)
   }
 
@@ -204,7 +205,7 @@ const RecentBox = ({ item }) => {
         <div style={{ display: "flex" }}>
           <CardMedia
             component="img"
-            sx={{ width: 120, height: 130 }}
+            sx={{ width: matches ? 120 : 80 , height: matches ? 130 : 90 }}
             image="https://add.nurulquran.com/images/song/164241245230.png"
             alt="Nurul Quran"
           />
@@ -264,7 +265,7 @@ const RecentBox = ({ item }) => {
               {checked && (
                 <div className="shareIcons">
                   <InsertLinkOutlinedIcon
-                    sx={{ cursor: "pointer" }}
+                    sx={{ cursor: "pointer" , fontSize:"2rem" }}
                     onClick={() => {
                       navigator.clipboard.writeText(URL)
                       handleClick()

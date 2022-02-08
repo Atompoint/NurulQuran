@@ -1,4 +1,4 @@
-import * as React from "react"
+import React,{useState} from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 import MuiDrawer from "../components/MuiDrawer/MuiDrawer"
@@ -19,20 +19,25 @@ const theme = createTheme({
     },
   },
 })
+
 const Layout = ({ children }) => {
+  const [margin, setMargin] = useState(false)
+
+
   return (
     <ThemeProvider theme={theme}>
-      <MuiDrawer />
+      <MuiDrawer setMargin={setMargin}/>
 
       <div
         style={{
           margin: `0 auto`,
           padding: "0rem 2rem",
-          // maxWidth: 960,
+          marginLeft: margin ? "240px" : "0px",
+          transition: "all 300ms ease-in-out",
           // padding: `0 1.0875rem 1.45rem`,
         }}
       >
-        <main>{children}</main>
+        <main >{children}</main>
       </div>
       <footer className="footerSection">
         <Grid container>

@@ -14,16 +14,60 @@ import "./HistoryBox.css"
 const HistoryBox = ({ isfavourite, item, isCache }) => {
   const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false)
+  const [isAudio, setIsAudio] = useState("")
+
   const { name, image, audio } = item.node
 
-  const handleOpen = () => {
+  const handleOpen=()=>{
+
     setIsOpen(true)
+  }
+
+  const handleOpenCache = () => {
+    //  //Retrieving base64 value from local Storage//
+         const getAudio = localStorage.getItem(name)
+         console.log("audio is" , getAudio)
+
+        const audiodata =  JSON.parse(getAudio)
+        const audioFileOf = audiodata.fileData
+
+        
+        
+        //  //Converting base64 to Array Buffer//
+         const base64toArray = base64ToArrayBuffer(audioFileOf)
+        // console.log("base 64 to array is" , base64toArray)
+      
+
+        const blob1 = new Blob([base64toArray], { type: "audio/wav" });
+        var audioElem = document.createElement("audio");
+        audioElem.src = window.URL.createObjectURL(blob1);
+        // console.log("audio elem " , audioElem)
+        setIsAudio(audioElem.src)
+        console.log("cache " , audioElem.src)
+        setIsOpen(true)
+
+        // audioElem.play()
+        // audioElem.pause()
+
+  }
+  function base64ToArrayBuffer(base64) {
+    let binaryString = window.atob(base64)
+    let binaryLength = binaryString.length
+    let bytes = new Uint8Array(binaryLength)
+
+    for (let i = 0; i < binaryLength; i++) {
+      let ascii = binaryString.charCodeAt(i)
+      bytes[i] = ascii
+    }
+    return bytes
   }
   const removeFavourite = () => {
     dispatch(setIsRemoveFavouriteItems(item))
   }
   const removeCache = () => {
     dispatch(removeCacheItems(item))
+    localStorage.removeItem(name);
+
   }
   return (
     <div>
@@ -32,7 +76,7 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
           openModal={isOpen}
           setIsOpen={setIsOpen}
           name={name}
-          audio={audio.file.url}
+          audio={isAudio || audio.file.url}
         />
       )}
       <div className="historyBox">
@@ -45,7 +89,7 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
             component="div"
             variant="subtitle1"
             sx={{ paddingLeft: "2rem" }}
-            onClick={handleOpen}
+            onClick={isCache ? handleOpenCache : handleOpen}
           >
             {item?.node?.name}
           </Typography>
