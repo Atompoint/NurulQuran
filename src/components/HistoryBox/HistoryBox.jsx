@@ -16,7 +16,7 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isAudio, setIsAudio] = useState("")
 
-  const { name, image, audio } = item.node
+  const { name, image, audio } = item.node || item
 
   const handleOpen=()=>{
 
@@ -91,7 +91,7 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
             sx={{ paddingLeft: "2rem" }}
             onClick={isCache ? handleOpenCache : handleOpen}
           >
-            {item?.node?.name}
+            {name}
           </Typography>
         </div>
         {isfavourite ? (

@@ -16,6 +16,9 @@ import Card from "@mui/material/Card"
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { setIsFavouriteItems } from "../Redux/favouriteItems"
+import {  graphql } from "gatsby"
+import CategoryCard from "../components/CategoryCard/CategoryCard"
+import { removeCacheItems } from "../Redux/cacheItems"
 
 
 
@@ -26,14 +29,29 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }))
 
-const Page = () => {
+const Page = ({data,pageContext}) => {
   const allItems = useSelector(state => state.items.value)
   const historyItems = useSelector(state => state.isPlayed.value)
   const favouriteItems = useSelector(state => state.isFavourite.value)
-  const items = allItems[0]
+  // const items = allItems[0]
   const matches = useMediaQuery('(min-width:600px)');
   const classes = useStyles()
   const [isFav, setIsFav] = useState(true)
+  const [pageData, setPageData] = useState([])
+
+  useEffect(() => {
+
+    const items = data?.allContentfulCategories?.edges
+    console.log("^^^^^^" , items)
+    
+    setPageData(items)
+  }, [])
+
+
+
+  // console.log("Dynamic data " , pageContext.categoryName)
+  // console.log("Dynamic Page data " , pageData)
+
 
   const handleOpen = () => {
   
@@ -66,7 +84,7 @@ const Page = () => {
                     variant="h6"
                     style={{ fontWeight:"bold", padding:"0.5rem 0rem" }}
                   >
-                    Quran
+                    {pageContext.categoryName}
                   </Typography>
                 </>
                 <>
@@ -88,11 +106,11 @@ const Page = () => {
         <Grid item xl={7} lg={7} md={12} xs={12}>
         
           <div className="recentlyAddedLeftSec">
-            {items?.map(items => {
+            {pageData?.map(items => {
               return (
                 <div>
                   <Grid>
-                    <RecentBox item={items} />
+                    <CategoryCard item={items} />
                   </Grid>
                 </div>
               )
@@ -105,3 +123,45 @@ const Page = () => {
 }
 
 export default Page
+
+export const PageQuery = graphql`
+query GETPAGEDATA($categoryName: String){
+  allContentfulCategories(filter: {categoryName: {eq: $categoryName}}) {
+    edges {
+      node {
+        categoryName
+        pageData {
+          name
+          audio {
+            file {
+              url
+            }
+          }
+          image {
+            file {
+              url
+            }
+          }
+        }
+        subCategoryName {
+          categoryName
+          pageData {
+            name
+            audio {
+              file {
+                url
+              }
+            }
+            image {
+              file {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+`

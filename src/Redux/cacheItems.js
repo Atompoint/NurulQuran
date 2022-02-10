@@ -21,8 +21,13 @@ export const counterSlice = createSlice({
     removeCacheItems: (state, action) => {
       return {
         ...state,
-        value: state.value.filter(
-          item => item?.node?.name !== action.payload.node.name
+        value: state.value.filter(item => {
+          if (item.node) {
+            return item.node.name !== (action.payload.node?.name || action.payload.name)
+          } else  {
+            return item.name !== (action.payload.name || action.payload.node?.name)
+          }
+        }
         ),
       }
     },

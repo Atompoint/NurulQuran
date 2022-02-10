@@ -22,7 +22,6 @@ import AudioModal from "../Modal/AudioModal"
 import { useDispatch, useSelector } from "react-redux"
 import { setIsPlayedItems } from "../../Redux/historyItems"
 import useMediaQuery from '@mui/material/useMediaQuery';
-
 import img from "../../images/gatsby-icon.png"
 import {
   counterSlice,
@@ -41,7 +40,7 @@ import {
 } from "react-share"
 import "./RecentBox.css"
 
-const RecentBox = ({ item }) => {
+const RecentBox = ({ item , isCategoryCard}) => {
   const dispatch = useDispatch()
   const historyItems = useSelector(state => state.isPlayed.value)
   const favouriteItems = useSelector(state => state.isFavourite.value)
@@ -58,15 +57,19 @@ const RecentBox = ({ item }) => {
   const [isPlay, setIsPlay] = useState(false)
   const [open, setOpen] = useState(false)
   const [checked, setChecked] = React.useState(false)
-  const { name, image, audio } = item.node
+  const { name, image, audio } = isCategoryCard ? item : item.node
   const URL = `http:${audio.file.url}`
   const theme = useTheme()
 const matches = useMediaQuery('(min-width:600px)');
 
+// console.log("^^^^^" , item)
+console.log("Checking" , item)
+
+
 
   useEffect(() => {
     let foundFavItem = favouriteItems.find(
-      obj => obj?.node?.name === item.node.name
+      obj => obj.node ?  obj.node?.name === name : obj.name === name
     )
     if (foundFavItem) {
       setIsFav(false)
@@ -75,7 +78,8 @@ const matches = useMediaQuery('(min-width:600px)');
     }
 
     let foundCacheItem = cacheItems.find(
-      obj => obj?.node?.name === item.node.name
+      obj => obj.node ?  obj.node?.name === name : obj.name === name
+
     )
     if (foundCacheItem) {
       setIsCache(false)
@@ -100,7 +104,7 @@ const matches = useMediaQuery('(min-width:600px)');
     setIsOpen(true)
     setIsPlay(true)
 
-    let obj = historyItems.find(obj => obj?.node?.name === item.node.name)
+    let obj = historyItems.find(obj => obj?.node?.name === name)
     if (!obj) {
       dispatch(setIsPlayedItems(item))
     }
@@ -125,11 +129,14 @@ const matches = useMediaQuery('(min-width:600px)');
     // let obj = historyItems.find(obj => obj?.node?.name === item.node.name)
     console.log("item is", item)
     dispatch(setIsFavouriteItems(item))
-    setIsFav(!isFav)
+    console.log("Before",isFav)
+    setIsFav(true)
+    console.log("After",isFav)
   }
   const removeFavourite = () => {
-    setIsFav(!isFav)
+    console.log("Remove fav",item)
     dispatch(setIsRemoveFavouriteItems(item))
+    setIsFav(false)
   }
 
   //this is the method which triggers on the click of cache button//
@@ -155,7 +162,7 @@ const matches = useMediaQuery('(min-width:600px)');
        
 
         const obj={
-          fileName:item.node.name,
+          fileName:name,
           fileData: newbase65
         }
         dispatch(setIsCacheItems(item))
@@ -228,7 +235,7 @@ const matches = useMediaQuery('(min-width:600px)');
                     variant="subtitle1"
                     style={{ paddingLeft: "1rem" }}
                   >
-                    {name}
+                    { name}
                   </Typography>
                 </>
               </CardContent>

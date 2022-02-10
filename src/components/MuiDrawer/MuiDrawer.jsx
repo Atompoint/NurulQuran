@@ -168,7 +168,7 @@ const MuiDrawer = ({setMargin}) => {
         ({ node: item }) => item.isParent === true
       )
       setParentItems(filteredParentItems)
-      console.log("**", filteredParentItems)
+      console.log("Parent", filteredParentItems)
     }
   }, [menuItems])
 
@@ -189,7 +189,7 @@ const MuiDrawer = ({setMargin}) => {
     setMargin(false)
 
   }
-  console.log("menu Bar ", menuItems)
+  console.log("All", menuItems)
 
   return (
     <div>
@@ -251,7 +251,7 @@ const MuiDrawer = ({setMargin}) => {
               </div>
             </div>
             <Link
-              to="favourite"
+              to="/favourite"
               style={{
                 color: `white`,
                 textDecoration: `none`,
@@ -289,16 +289,26 @@ const MuiDrawer = ({setMargin}) => {
           <List>
             {parentItems.map((item, index) => (
               <>
+             
+              
                 <ListItemButton
-                  onClick={() => handleDropdown(item.node.categoryName)}
+                style={{display:"flex" , justifyContent:"space-between"}}
+                
                 >
+              
+                   <Link
+                             to={`/${item.node.categoryName.split(" ").join("").toLowerCase()}`}
+                             style={{textDecoration:"none" , color:"gray"}}
+              
+              >
                   <ListItemText primary={item.node.categoryName} />
+                  </Link>
                   {item.node.subCategoryName?.length > 0 &&
                     (openMenuDropdown[item.node.categoryName] ? (
-                      <ExpandLess />
+                      <ExpandLess   onClick={() => handleDropdown(item.node.categoryName)}/>
                     ) : (
-                      <ExpandMore />
-                    ))}
+                      <ExpandMore   onClick={() => handleDropdown(item.node.categoryName)}/>
+                      ))}
                 </ListItemButton>
                 {item.node.subCategoryName?.length > 0 &&
                   item.node.subCategoryName?.map(subCategory => {
@@ -309,9 +319,16 @@ const MuiDrawer = ({setMargin}) => {
                         unmountOnExit
                       >
                         <List component="div" disablePadding>
+                          <Link   
+                             to={`/${subCategory.categoryName.split(" ").join("").toLowerCase()}`}
+                             style={{textDecoration:"none" , color:"gray"}}
+
+                          
+                          >
                           <ListItemButton sx={{ pl: 4 }}>
                             <ListItemText primary={subCategory.categoryName} />
                           </ListItemButton>
+                          </Link>
                         </List>
                       </Collapse>
                     )

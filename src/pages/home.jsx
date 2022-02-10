@@ -1,11 +1,16 @@
-import React from "react"
+import React, {useEffect} from "react"
 import Page from "../templates/Page"
 
-const home = () => {
+
+
+
+
+const Home = () => {
+
   return <div> 
 
     <Page/>
   </div>
 }
 
-export default home
+export default Home

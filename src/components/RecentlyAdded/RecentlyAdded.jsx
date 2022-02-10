@@ -24,6 +24,7 @@ const RecentlyAdded = () => {
   const historyItems = useSelector(state => state.isPlayed.value)
   const favouriteItems = useSelector(state => state.isFavourite.value)
   const items = allItems[0]
+  console.log("All items",items)
 const matches = useMediaQuery('(min-width:600px)');
 
 
