@@ -2,7 +2,7 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles((theme) => ({
     rootStyle : {
-        padding: "0rem 5rem",
+        padding: "0rem 1rem",
         
     },
     categoryBox:{
@@ -17,6 +17,18 @@ export const useStyles = makeStyles((theme) => ({
         flexFlow:"column"
           
     },
+    [theme.breakpoints.up('sm')]: {
+        rootStyle : {
+            padding: "0rem 2rem"
+        }
+    
+    },
+    [theme.breakpoints.up('md')]: {
+        rootStyle : {
+            padding: "0rem 4rem"
+        }
+      },
     
 
    }));
+

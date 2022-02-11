@@ -24,7 +24,7 @@ const RecentlyAdded = () => {
   const historyItems = useSelector(state => state.isPlayed.value)
   const favouriteItems = useSelector(state => state.isFavourite.value)
   const items = allItems[0]
-  console.log("All items",items)
+  // console.log("All items",items)
 const matches = useMediaQuery('(min-width:600px)');
 
 
@@ -60,7 +60,7 @@ const matches = useMediaQuery('(min-width:600px)');
               gutterBottom
               component="div"
               color="#106B66"
-              sx={{ fontWeight: "bold" , marginTop:"1rem" }}
+              sx={{ fontWeight: "bold" }}
             >
               History
             </Typography>

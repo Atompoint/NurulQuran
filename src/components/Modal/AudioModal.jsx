@@ -6,20 +6,13 @@ import Modal from "@mui/material/Modal"
 import Fade from "@mui/material/Fade"
 import Typography from "@mui/material/Typography"
 import CardMedia from "@mui/material/CardMedia"
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-}
+
+
 
 const AudioModal = ({ openModal, name, audio, setIsOpen, setIsPlay }) => {
+
   const handleClose = () => {
     setIsOpen(false)
 
@@ -28,6 +21,20 @@ const AudioModal = ({ openModal, name, audio, setIsOpen, setIsPlay }) => {
     }
   }
   const [open, setOpen] = React.useState(openModal)
+  const isMobile = useMediaQuery('(min-width:600px)');
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: isMobile ? 400 : 350,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  }
+
 
   return (
     <div>

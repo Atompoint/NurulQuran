@@ -32,7 +32,7 @@ const IndexPage = ({ data }) => {
   const dispatch = useDispatch()
 let  str = "Hello Worls"
   str=str.split(" ").join("");
-  console.log("str is" , str)
+  // console.log("str is" , str)
 
   useEffect(() => {
     const items = data?.allContentfulNurulquran?.edges

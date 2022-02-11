@@ -150,7 +150,7 @@ const MuiDrawer = ({setMargin}) => {
   const [menuItems, setMenuItems] = useState([])
   const [parentItems, setParentItems] = useState([])
   const [openMenuDropdown, setOpenMenuDropdown] = React.useState({})
-  const matches = useMediaQuery('(min-width:600px)');
+  const matches = useMediaQuery('(min-width:769px)');
 
 
   const handleDropdown = categoryName => {
@@ -168,7 +168,7 @@ const MuiDrawer = ({setMargin}) => {
         ({ node: item }) => item.isParent === true
       )
       setParentItems(filteredParentItems)
-      console.log("Parent", filteredParentItems)
+      // console.log("Parent", filteredParentItems)
     }
   }, [menuItems])
 
@@ -189,7 +189,7 @@ const MuiDrawer = ({setMargin}) => {
     setMargin(false)
 
   }
-  console.log("All", menuItems)
+  // console.log("All", menuItems)
 
   return (
     <div>
@@ -207,38 +207,7 @@ const MuiDrawer = ({setMargin}) => {
               <MenuIcon />
             </IconButton>
             <div className="header">
-              <div>
-                <Link
-                  to="/"
-                  style={{
-                    color: `white`,
-                    textDecoration: `none`,
-                  }}
-                >
-                  
-                  {
-                    matches ? (
-                      <Typography variant="h6" noWrap component="div">
-                      NurulQuran
-                    </Typography>
-                    )
-                    :
-                    <HomeIcon
-                    sx={{marginTop:"0.3rem"}}
-              
-                    
-                    />
-
-                    
-                  }
-                   
-
-                    
-                  
-                  
-                </Link>
-              </div>
-              <div>
+            <div style={{width: matches ? "300px" : "70%" }}>
                 <Search>
                   <SearchIconWrapper>
                     <SearchIcon />
@@ -249,18 +218,42 @@ const MuiDrawer = ({setMargin}) => {
                   />
                 </Search>
               </div>
-            </div>
-            <Link
+              <div style={{display:"flex" , justifyContent:"center", alignItems:"center"}}>
+                <Link
+                  to="/"
+                  style={{
+                    color: `white`,
+                    textDecoration: `none`,
+                    padding: matches ? "0rem 0.5rem" : "0rem 0.5rem",
+                  
+                  }}
+                >
+                  
+                  
+                    <HomeIcon
+                   
+                          
+                    />
+
+                  
+                </Link>
+                <Link
               to="/favourite"
               style={{
                 color: `white`,
                 textDecoration: `none`,
+                padding: matches ? "0rem 0.5rem" : "0rem 0.5rem",
+
               }}
             >
               <FavoriteBorderIcon
-                sx={{ padding: "0rem 0.5rem", fontSize: "2.5rem" }}
+           
               />
             </Link>
+              </div>
+              
+            </div>
+            
           </Toolbar>
         </AppBar>
         <Drawer

@@ -22,7 +22,7 @@ module.exports = async ({ actions, graphql }) => {
   const fetchPosts = async () => {
     // Do query to get all posts and pages, this will return the posts and pages.
     return await graphql(GET_PAGES).then(({ data }) => {
-      console.log("Content is", data);
+      // console.log("Content is", data);
       const {
         allContentfulCategories: { edges }} = data;
 
@@ -39,7 +39,7 @@ module.exports = async ({ actions, graphql }) => {
         // If its not a custom template, create the page.
         if (!customTemplates.includes(page.node.categoryName)) {
           createPage({
-  path: `${page.node.categoryName.split(" ").join("").toLowerCase()}`,
+             path: `${page.node.categoryName.split(" ").join("").toLowerCase()}`,
             component: slash(singlePageTemplate),
             context: { categoryName: page.node.categoryName }, // pass single page Name in context, so its available in the singlePagetTemplate in props.pageContext.
           });

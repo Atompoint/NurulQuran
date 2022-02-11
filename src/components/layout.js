@@ -4,6 +4,8 @@ import { useStaticQuery, graphql } from "gatsby"
 import MuiDrawer from "../components/MuiDrawer/MuiDrawer"
 import Grid from "@mui/material/Grid"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 import Header from "./header"
 import "./layout.css"
@@ -22,6 +24,10 @@ const theme = createTheme({
 
 const Layout = ({ children }) => {
   const [margin, setMargin] = useState(false)
+  const matches = useMediaQuery('(min-width:769px)');
+  const isMobile = useMediaQuery('(min-width:600px)');
+
+
 
 
   return (
@@ -31,8 +37,8 @@ const Layout = ({ children }) => {
       <div
         style={{
           margin: `0 auto`,
-          padding: "0rem 2rem",
-          marginLeft: margin ? "240px" : "0px",
+          padding: isMobile ? "0rem 2rem" : "0rem 1rem",
+          marginLeft: margin && matches ? "240px" : "0px",
           transition: "all 300ms ease-in-out",
           // padding: `0 1.0875rem 1.45rem`,
         }}

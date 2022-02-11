@@ -53,6 +53,7 @@
     /* font-size: 2rem !important; */
     height: 0.5em !important;
   }
+  .forEllipses{ width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   
   
   

@@ -8,6 +8,7 @@ import { setIsRemoveFavouriteItems } from "../../Redux/favouriteItems"
 import { useDispatch, useSelector } from "react-redux"
 import { removeCacheItems } from "../../Redux/cacheItems"
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline"
+import { navigate } from "gatsby"  
 
 import "./HistoryBox.css"
 
@@ -16,39 +17,54 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isAudio, setIsAudio] = useState("")
 
-  const { name, image, audio } = item.node || item
+  const { name, image, audio , isCategory , redirectLink} = item.node || item
 
   const handleOpen=()=>{
 
-    setIsOpen(true)
+    if(isCategory){
+      navigate(`/${item.name.split(" ").join("").toLowerCase()}`)
+    }
+    else{
+
+      setIsOpen(true)
+    }
+
   }
 
   const handleOpenCache = () => {
-    //  //Retrieving base64 value from local Storage//
-         const getAudio = localStorage.getItem(name)
-         console.log("audio is" , getAudio)
 
-        const audiodata =  JSON.parse(getAudio)
-        const audioFileOf = audiodata.fileData
+    
+    
+       //  //Retrieving base64 value from local Storage//
+       const getAudio = localStorage.getItem(name)
+      //  console.log("audio is" , getAudio)
 
-        
-        
-        //  //Converting base64 to Array Buffer//
-         const base64toArray = base64ToArrayBuffer(audioFileOf)
-        // console.log("base 64 to array is" , base64toArray)
+      const audiodata =  JSON.parse(getAudio)
+      const audioFileOf = audiodata.fileData
+
       
+      
+      //  //Converting base64 to Array Buffer//
+       const base64toArray = base64ToArrayBuffer(audioFileOf)
+      // console.log("base 64 to array is" , base64toArray)
+    
 
-        const blob1 = new Blob([base64toArray], { type: "audio/wav" });
-        var audioElem = document.createElement("audio");
-        audioElem.src = window.URL.createObjectURL(blob1);
-        // console.log("audio elem " , audioElem)
-        setIsAudio(audioElem.src)
-        console.log("cache " , audioElem.src)
-        setIsOpen(true)
+      const blob1 = new Blob([base64toArray], { type: "audio/wav" });
+      var audioElem = document.createElement("audio");
+      audioElem.src = window.URL.createObjectURL(blob1);
+      // console.log("audio elem " , audioElem)
+      setIsAudio(audioElem.src)
+      // console.log("cache " , audioElem.src)
+      setIsOpen(true)
 
-        // audioElem.play()
-        // audioElem.pause()
+      // audioElem.play()
+      // audioElem.pause()
 
+
+  
+
+
+   
   }
   function base64ToArrayBuffer(base64) {
     let binaryString = window.atob(base64)
@@ -71,7 +87,7 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
   }
   return (
     <div>
-      {isOpen && (
+      {isOpen && !isCategory && (
         <AudioModal
           openModal={isOpen}
           setIsOpen={setIsOpen}

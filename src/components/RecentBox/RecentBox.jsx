@@ -32,6 +32,8 @@ import {
 import { setIsCacheItems, removeCacheItems } from "../../Redux/cacheItems"
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline"
 import Snackbar from "@mui/material/Snackbar"
+import Popover from '@mui/material/Popover';
+
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -61,9 +63,26 @@ const RecentBox = ({ item , isCategoryCard}) => {
   const URL = `http:${audio.file.url}`
   const theme = useTheme()
 const matches = useMediaQuery('(min-width:600px)');
+const isMobile = useMediaQuery('(min-width:600px)');
+
 
 // console.log("^^^^^" , item)
-console.log("Checking" , item)
+// console.log("Checking" , item)
+
+const [anchorEl, setAnchorEl] = React.useState(null);
+
+const handleClickPopover = (event) => {
+  setChecked(prev => !prev)
+
+  setAnchorEl(event.currentTarget);
+};
+
+const handleClosePopover = () => {
+  setAnchorEl(null);
+};
+
+const openPopover = Boolean(anchorEl);
+const id = openPopover ? 'simple-popover' : undefined;
 
 
 
@@ -123,18 +142,18 @@ console.log("Checking" , item)
   }
 
   const handleChange = () => {
-    setChecked(prev => !prev)
+   
   }
   const setFavourite = () => {
     // let obj = historyItems.find(obj => obj?.node?.name === item.node.name)
-    console.log("item is", item)
+    // console.log("item is", item)
     dispatch(setIsFavouriteItems(item))
-    console.log("Before",isFav)
+    // console.log("Before",isFav)
     setIsFav(true)
-    console.log("After",isFav)
+    // console.log("After",isFav)
   }
   const removeFavourite = () => {
-    console.log("Remove fav",item)
+    // console.log("Remove fav",item)
     dispatch(setIsRemoveFavouriteItems(item))
     setIsFav(false)
   }
@@ -145,17 +164,17 @@ console.log("Checking" , item)
      fetch(audio.file.url).then(response => {
        response.blob().then(async blob => {
         //  let url = window.URL.createObjectURL(blob)
-         console.log("blob" , blob)
+        //  console.log("blob" , blob)
        
 
          //converting blob to array buffer//
          const newBlob = await new Response(blob).arrayBuffer()
-         console.log("new Blob is" , newBlob)
+        //  console.log("new Blob is" , newBlob)
 
 
         // //converting array buffet to base64//
          const newbase65 = _arrayBufferToBase64(newBlob)
-        console.log("base64" , newbase65)
+        // console.log("base64" , newbase65)
 
 
         //  //setting base64 value to local Storage//
@@ -212,12 +231,12 @@ console.log("Checking" , item)
         <div style={{ display: "flex" }}>
           <CardMedia
             component="img"
-            sx={{ width: matches ? 120 : 80 , height: matches ? 130 : 90 }}
+            sx={{ width: matches ? 120 : 100 , height: matches ? 130 : 110 }}
             image="https://add.nurulquran.com/images/song/164241245230.png"
             alt="Nurul Quran"
           />
           <Box>
-            <div style={{ display: "flex" }}>
+            <div style={{ display: "flex" , height: matches && "65px"}}>
               <CardContent sx={{ display: "flex" }}>
                 <>
                   {!isPlay ? (
@@ -229,15 +248,25 @@ console.log("Checking" , item)
                     <PauseIcon sx={{ cursor: "pointer" }} />
                   )}
                 </>
-                <>
-                  <Typography
+                <div 
+            
+                
+                >
+                
+                <Tooltip title={name}>
+                <Typography
                     component="div"
                     variant="subtitle1"
-                    style={{ paddingLeft: "1rem" }}
+                    style={{ paddingLeft: "1rem"
+                  }}
+                  className="forEllipses"
                   >
                     { name}
                   </Typography>
-                </>
+  
+</Tooltip>
+                 
+                </div>
               </CardContent>
             </div>
 
@@ -265,13 +294,26 @@ console.log("Checking" , item)
               </Tooltip>
               <Tooltip title="Share links">
                 <IconButton>
-                  <ShareIcon onClick={handleChange} />
+                  <ShareIcon onClick={handleClickPopover} />
                 </IconButton>
               </Tooltip>
 
               {checked && (
                 <div className="shareIcons">
-                  <InsertLinkOutlinedIcon
+                  
+                   <Popover
+        id={id}
+        open={openPopover}
+        anchorEl={anchorEl}
+        onClose={handleClosePopover}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{left:500 , top:500}}
+        anchorPosition={{left:'500' , top:'500'}}
+      >
+<InsertLinkOutlinedIcon
                     sx={{ cursor: "pointer" , fontSize:"2rem" }}
                     onClick={() => {
                       navigator.clipboard.writeText(URL)
@@ -290,6 +332,7 @@ console.log("Checking" , item)
                   <FacebookShareButton url={URL} title={name} quote={name}>
                     <FacebookOutlinedIcon sx={{ color: "#3C5997" }} />
                   </FacebookShareButton>
+      </Popover>
                 </div>
               )}
             </div>
