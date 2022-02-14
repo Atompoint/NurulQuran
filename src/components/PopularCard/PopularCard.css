@@ -8,6 +8,7 @@
 .modalBox {
   border-radius: 10px;
   border: 2px solid #106b66 !important;
+
 }
 audio::-webkit-media-controls-play-button,
 audio::-webkit-media-controls-panel {

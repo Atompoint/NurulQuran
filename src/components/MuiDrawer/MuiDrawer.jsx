@@ -1,43 +1,45 @@
-import React, { useState, useEffect } from "react"
-import { styled, useTheme, alpha } from "@mui/material/styles"
-import Box from "@mui/material/Box"
-import Drawer from "@mui/material/Drawer"
-import CssBaseline from "@mui/material/CssBaseline"
-import MuiAppBar from "@mui/material/AppBar"
-import Toolbar from "@mui/material/Toolbar"
-import List from "@mui/material/List"
-import Typography from "@mui/material/Typography"
-import Divider from "@mui/material/Divider"
-import IconButton from "@mui/material/IconButton"
-import MenuIcon from "@mui/icons-material/Menu"
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
-import ChevronRightIcon from "@mui/icons-material/ChevronRight"
-import HomeIcon from '@mui/icons-material/Home';
-import ListItem from "@mui/material/ListItem"
-import ListItemIcon from "@mui/material/ListItemIcon"
-import ListItemText from "@mui/material/ListItemText"
-import InboxIcon from "@mui/icons-material/MoveToInbox"
-import MailIcon from "@mui/icons-material/Mail"
-import InputBase from "@mui/material/InputBase"
-import SearchIcon from "@mui/icons-material/Search"
-import { useStaticQuery, graphql } from "gatsby"
-import Collapse from "@mui/material/Collapse"
-import StarBorder from "@mui/icons-material/StarBorder"
-import ListItemButton from "@mui/material/ListItemButton"
-import "./Muidrawer.css"
-import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown"
-import Menu from "@mui/material/Menu"
-import MenuItem from "@mui/material/MenuItem"
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
-import ExpandLess from "@mui/icons-material/ExpandLess"
-import ExpandMore from "@mui/icons-material/ExpandMore"
-import favourite from "../../pages/favourite"
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { Link } from "gatsby"
+import React, { useState, useEffect } from "react";
+import { styled, useTheme, alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import CssBaseline from "@mui/material/CssBaseline";
+import MuiAppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import HomeIcon from "@mui/icons-material/Home";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
+import { useStaticQuery, graphql } from "gatsby";
+import Collapse from "@mui/material/Collapse";
+import StarBorder from "@mui/icons-material/StarBorder";
+import ListItemButton from "@mui/material/ListItemButton";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import favourite from "../../pages/favourite";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import SearchModal from "../SearchModal/SearchModal";
+import "./MuiDrawer.css";
 
-const drawerWidth = 240
+import { Link } from "gatsby";
 
-const Main = styled("main", { shouldForwardProp: prop => prop !== "open" })(
+const drawerWidth = 240;
+
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
@@ -54,10 +56,10 @@ const Main = styled("main", { shouldForwardProp: prop => prop !== "open" })(
       marginLeft: 0,
     }),
   })
-)
+);
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: prop => prop !== "open",
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   transition: theme.transitions.create(["margin", "width"], {
     easing: theme.transitions.easing.sharp,
@@ -71,7 +73,7 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
-}))
+}));
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -80,7 +82,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
-}))
+}));
 //search
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -95,7 +97,7 @@ const Search = styled("div")(({ theme }) => ({
     marginLeft: theme.spacing(1),
     width: "auto",
   },
-}))
+}));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -105,7 +107,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-}))
+}));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
@@ -122,9 +124,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       },
     },
   },
-}))
+}));
 
-const MuiDrawer = ({setMargin}) => {
+const MuiDrawer = ({ setMargin }) => {
   const data = useStaticQuery(graphql`
     query MenuBarQuery {
       allContentfulCategories {
@@ -142,57 +144,64 @@ const MuiDrawer = ({setMargin}) => {
         }
       }
     }
-  `)
-  const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const openMenuItem = Boolean(anchorEl)
-  const [menuItems, setMenuItems] = useState([])
-  const [parentItems, setParentItems] = useState([])
-  const [openMenuDropdown, setOpenMenuDropdown] = React.useState({})
-  const matches = useMediaQuery('(min-width:769px)');
+  `);
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openMenuItem = Boolean(anchorEl);
+  const [menuItems, setMenuItems] = useState([]);
+  const [parentItems, setParentItems] = useState([]);
+  const [openMenuDropdown, setOpenMenuDropdown] = React.useState({});
+  const matches = useMediaQuery("(min-width:769px)");
+  const [isOpen, setIsOpen] = useState(false);
 
-
-  const handleDropdown = categoryName => {
-    setOpenMenuDropdown(prevState => ({
+  const handleDropdown = (categoryName) => {
+    setOpenMenuDropdown((prevState) => ({
       ...prevState,
       [categoryName]: !prevState[categoryName],
-    }))
-  }
+    }));
+  };
 
   useEffect(() => {
-    setMenuItems(data?.allContentfulCategories?.edges)
+    setMenuItems(data?.allContentfulCategories?.edges);
     if (menuItems.length > 0) {
       // const postIds = menuItems.map(({ node: item }) => item.categoryName)
       const filteredParentItems = menuItems.filter(
         ({ node: item }) => item.isParent === true
-      )
-      setParentItems(filteredParentItems)
+      );
+      setParentItems(filteredParentItems);
       // console.log("Parent", filteredParentItems)
     }
-  }, [menuItems])
+  }, [menuItems]);
 
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget)
-  }
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
   const handleClose = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
   const handleDrawerOpen = () => {
-    setOpen(true)
-    setMargin(true)
-  }
+    setOpen(true);
+    setMargin(true);
+  };
 
   const handleDrawerClose = () => {
-    setOpen(false)
-    setMargin(false)
-
-  }
+    setOpen(false);
+    setMargin(false);
+  };
   // console.log("All", menuItems)
 
   return (
     <div>
+      {isOpen && (
+        <SearchModal
+          openModal={isOpen}
+          setIsOpen={setIsOpen}
+          // name={name}
+          // audio={isAudio || audio.file.url}
+        />
+      )}
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar position="fixed" open={open}>
@@ -207,53 +216,38 @@ const MuiDrawer = ({setMargin}) => {
               <MenuIcon />
             </IconButton>
             <div className="header">
-            <div style={{width: matches ? "300px" : "70%" }}>
-                <Search>
-                  <SearchIconWrapper>
-                    <SearchIcon />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                    placeholder="Search…"
-                    inputProps={{ "aria-label": "search" }}
-                  />
-                </Search>
+              <div className="searchIconBox">
+                <SearchIcon onClick={() => setIsOpen(true)} />
               </div>
-              <div style={{display:"flex" , justifyContent:"center", alignItems:"center"}}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <Link
                   to="/"
                   style={{
                     color: `white`,
                     textDecoration: `none`,
                     padding: matches ? "0rem 0.5rem" : "0rem 0.5rem",
-                  
                   }}
                 >
-                  
-                  
-                    <HomeIcon
-                   
-                          
-                    />
-
-                  
+                  <HomeIcon />
                 </Link>
                 <Link
-              to="/favourite"
-              style={{
-                color: `white`,
-                textDecoration: `none`,
-                padding: matches ? "0rem 0.5rem" : "0rem 0.5rem",
-
-              }}
-            >
-              <FavoriteBorderIcon
-           
-              />
-            </Link>
+                  to="/favourite"
+                  style={{
+                    color: `white`,
+                    textDecoration: `none`,
+                    padding: matches ? "0rem 0.5rem" : "0rem 0.5rem",
+                  }}
+                >
+                  <FavoriteBorderIcon />
+                </Link>
               </div>
-              
             </div>
-            
           </Toolbar>
         </AppBar>
         <Drawer
@@ -282,29 +276,31 @@ const MuiDrawer = ({setMargin}) => {
           <List>
             {parentItems.map((item, index) => (
               <>
-             
-              
                 <ListItemButton
-                style={{display:"flex" , justifyContent:"space-between"}}
-                
+                  style={{ display: "flex", justifyContent: "space-between" }}
                 >
-              
-                   <Link
-                             to={`/${item.node.categoryName.split(" ").join("").toLowerCase()}`}
-                             style={{textDecoration:"none" , color:"gray"}}
-              
-              >
-                  <ListItemText primary={item.node.categoryName} />
+                  <Link
+                    to={`/${item.node.categoryName
+                      .split(" ")
+                      .join("")
+                      .toLowerCase()}`}
+                    style={{ textDecoration: "none", color: "gray" }}
+                  >
+                    <ListItemText primary={item.node.categoryName} />
                   </Link>
                   {item.node.subCategoryName?.length > 0 &&
                     (openMenuDropdown[item.node.categoryName] ? (
-                      <ExpandLess   onClick={() => handleDropdown(item.node.categoryName)}/>
+                      <ExpandLess
+                        onClick={() => handleDropdown(item.node.categoryName)}
+                      />
                     ) : (
-                      <ExpandMore   onClick={() => handleDropdown(item.node.categoryName)}/>
-                      ))}
+                      <ExpandMore
+                        onClick={() => handleDropdown(item.node.categoryName)}
+                      />
+                    ))}
                 </ListItemButton>
                 {item.node.subCategoryName?.length > 0 &&
-                  item.node.subCategoryName?.map(subCategory => {
+                  item.node.subCategoryName?.map((subCategory) => {
                     return (
                       <Collapse
                         in={openMenuDropdown[item.node.categoryName]}
@@ -312,19 +308,22 @@ const MuiDrawer = ({setMargin}) => {
                         unmountOnExit
                       >
                         <List component="div" disablePadding>
-                          <Link   
-                             to={`/${subCategory.categoryName.split(" ").join("").toLowerCase()}`}
-                             style={{textDecoration:"none" , color:"gray"}}
-
-                          
+                          <Link
+                            to={`/${subCategory.categoryName
+                              .split(" ")
+                              .join("")
+                              .toLowerCase()}`}
+                            style={{ textDecoration: "none", color: "gray" }}
                           >
-                          <ListItemButton sx={{ pl: 4 }}>
-                            <ListItemText primary={subCategory.categoryName} />
-                          </ListItemButton>
+                            <ListItemButton sx={{ pl: 4 }}>
+                              <ListItemText
+                                primary={subCategory.categoryName}
+                              />
+                            </ListItemButton>
                           </Link>
                         </List>
                       </Collapse>
-                    )
+                    );
                   })}
               </>
             ))}
@@ -335,7 +334,7 @@ const MuiDrawer = ({setMargin}) => {
         </Main>
       </Box>
     </div>
-  )
-}
+  );
+};
 
-export default MuiDrawer
+export default MuiDrawer;
