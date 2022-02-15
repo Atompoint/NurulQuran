@@ -1,11 +1,10 @@
-import React,{useState} from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 import MuiDrawer from "../components/MuiDrawer/MuiDrawer"
 import Grid from "@mui/material/Grid"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import useMediaQuery from '@mui/material/useMediaQuery';
-
+import useMediaQuery from "@mui/material/useMediaQuery"
 
 import Header from "./header"
 import "./layout.css"
@@ -24,15 +23,12 @@ const theme = createTheme({
 
 const Layout = ({ children }) => {
   const [margin, setMargin] = useState(false)
-  const matches = useMediaQuery('(min-width:769px)');
-  const isMobile = useMediaQuery('(min-width:600px)');
-
-
-
+  const matches = useMediaQuery("(min-width:1025px)")
+  const isMobile = useMediaQuery("(min-width:600px)")
 
   return (
     <ThemeProvider theme={theme}>
-      <MuiDrawer setMargin={setMargin}/>
+      <MuiDrawer setMargin={setMargin} />
 
       <div
         style={{
@@ -43,14 +39,14 @@ const Layout = ({ children }) => {
           // padding: `0 1.0875rem 1.45rem`,
         }}
       >
-        <main >{children}</main>
+        <main>{children}</main>
       </div>
       <footer className="footerSection">
         <Grid container>
-          <Grid xs={8} className="footerHead">
-            <p>Build NurulQuran @2022</p>
+          <Grid xs={12} lg={8} className="footerHead">
+            <p>Nurul Quran @2022 Powered by AtomPoint</p>
           </Grid>
-          <Grid xs={4} className="footerInnerSection"></Grid>
+          <Grid xs={0} lg={4} className="footerInnerSection"></Grid>
         </Grid>
       </footer>
     </ThemeProvider>

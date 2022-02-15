@@ -3,7 +3,7 @@
   border-radius: 10px;
   border: 1px solid #e0e0e0;
   margin-bottom: 1rem;
-  margin-left: 0.3rem;
+  /* margin-left: 0.3rem; */
   margin-right: 1rem;
   background: #f8f8f8;
 }
@@ -12,27 +12,45 @@
 } */
 .icons {
   margin-left: 1rem;
+  margin-top: 0.7rem;
   display: flex;
 }
 .shareIcons {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-left: 2rem;
 }
 .shareIcons > * {
-  margin-left: 0.5rem;
   font-size: 1.5rem;
 }
 .icons > * {
   color: #808080;
   
 }
+.css-3bmhjh-MuiPaper-root-MuiPopover-paper{
+  box-shadow: none !important;
+  /* left: 240px !important;
+  top: 350px !important; */
+  background-color: transparent !important;
+  border-radius:none !important;
+
+
+}
+@media only screen and (max-width: 600px) {
+  .icons {
+    margin-left: 1rem;
+    margin-top: 0rem;
+    display: flex;
+  }
+}
+
 
 @media only screen and (max-width: 500px) {
   .recentCard {
   
     margin-left: 0rem;
-    margin-right: 0rem;
+    margin-right: 1rem;
   
   }
   .icons > * {

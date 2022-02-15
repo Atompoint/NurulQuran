@@ -277,38 +277,50 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
               </Tooltip>
 
               {checked && (
-                <div className="shareIcons">
+                <div>
                   <Popover
                     id={id}
                     open={openPopover}
                     anchorEl={anchorEl}
-                    onClose={handleClosePopover}
                     anchorOrigin={{
                       vertical: "top",
                       horizontal: "left",
                     }}
-                    transformOrigin={{ left: 500, top: 500 }}
-                    anchorPosition={{ left: "500", top: "500" }}
+                    onClose={handleClosePopover}
                   >
-                    <InsertLinkOutlinedIcon
-                      sx={{ cursor: "pointer", fontSize: "2rem" }}
-                      onClick={() => {
-                        navigator.clipboard.writeText(URL);
-                        handleClick();
-                      }}
-                    />
-                    <TwitterShareButton url={URL} title={name} quote={name}>
-                      <TwitterIcon sx={{ color: "#05ABED" }} />
-                    </TwitterShareButton>
-                    <EmailShareButton url={URL} title={name} quote={name}>
-                      <MailOutlineOutlinedIcon sx={{ color: "#878787" }} />
-                    </EmailShareButton>
-                    <WhatsappShareButton url={URL} title={name} quote={name}>
-                      <WhatsappOutlinedIcon sx={{ color: "#24D366" }} />
-                    </WhatsappShareButton>
-                    <FacebookShareButton url={URL} title={name} quote={name}>
-                      <FacebookOutlinedIcon sx={{ color: "#3C5997" }} />
-                    </FacebookShareButton>
+                    <div className="shareIcons">
+                      <InsertLinkOutlinedIcon
+                        sx={{
+                          cursor: "pointer",
+                          fontSize: "1.8rem",
+                          paddingBottom: "0.2rem",
+                        }}
+                        onClick={() => {
+                          navigator.clipboard.writeText(URL);
+                          handleClick();
+                        }}
+                      />
+                      <TwitterShareButton url={URL} title={name} quote={name}>
+                        <TwitterIcon
+                          sx={{ color: "#05ABED", paddingLeft: "0.3rem" }}
+                        />
+                      </TwitterShareButton>
+                      <EmailShareButton url={URL} title={name} quote={name}>
+                        <MailOutlineOutlinedIcon
+                          sx={{ color: "#878787", paddingLeft: "0.3rem" }}
+                        />
+                      </EmailShareButton>
+                      <WhatsappShareButton url={URL} title={name} quote={name}>
+                        <WhatsappOutlinedIcon
+                          sx={{ color: "#24D366", paddingLeft: "0.3rem" }}
+                        />
+                      </WhatsappShareButton>
+                      <FacebookShareButton url={URL} title={name} quote={name}>
+                        <FacebookOutlinedIcon
+                          sx={{ color: "#3C5997", paddingLeft: "0.3rem" }}
+                        />
+                      </FacebookShareButton>
+                    </div>
                   </Popover>
                 </div>
               )}

@@ -10,17 +10,17 @@
   /* border-radius: 10px; */
   /* box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2); */
   height: 570px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 1px;
-}
+} */
 .recentlyAddedInnerHistorySec {
   background: #f8f8f8;
 
   box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
   height: 240px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 
   border-radius: 10px;
 }
@@ -29,7 +29,7 @@
 
   box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
   height: 240px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 
   border-radius: 10px;
 }

@@ -18,6 +18,16 @@ audio::-webkit-media-controls-panel {
 .cardMedia{
   height: 120px;
 }
+@media only screen and (max-width: 600px) {
+  .modalBox {
+    border-radius: 0px;
+  border: 0px solid #ffff !important;
+    
+  
+  }
+
+
+}
 @media only screen and (max-width: 500px) {
   .popularCard {
     max-width: 150px;
@@ -26,5 +36,6 @@ audio::-webkit-media-controls-panel {
   .cardMedia{
     height: 100px;
   }
+ 
   
 }

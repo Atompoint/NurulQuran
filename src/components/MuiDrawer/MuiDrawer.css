@@ -17,18 +17,37 @@
   cursor: pointer;
 
 }
-::-webkit-scrollbar {
+.searchBox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  /* background-color: #4C908C; */
+  background: #106B66 ;
+  /* width: 40px; */
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+
+}
+/* ::-webkit-scrollbar {
   width: 80px;
   height: 50px;
+  padding-left: 1rem;
 }
   ::-webkit-scrollbar-track {
   background: #f1f1f1; 
+  padding-left: 1rem;
+
 }
   ::-webkit-scrollbar-thumb {
   background: #888; 
     border-radius:10px;
+  padding-left: 1rem;
+
 }
 ::-webkit-scrollbar-thumb:hover {
   
   background: #555; 
-} 
+  padding-left: 1rem;
+
+}  */

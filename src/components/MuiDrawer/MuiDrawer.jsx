@@ -33,6 +33,8 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import favourite from "../../pages/favourite";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import SearchModal from "../SearchModal/SearchModal";
+// import { Scrollbars } from "react-custom-scrollbars";
+
 import "./MuiDrawer.css";
 
 import { Link } from "gatsby";
@@ -153,6 +155,8 @@ const MuiDrawer = ({ setMargin }) => {
   const [parentItems, setParentItems] = useState([]);
   const [openMenuDropdown, setOpenMenuDropdown] = React.useState({});
   const matches = useMediaQuery("(min-width:769px)");
+  const isTab = useMediaQuery("(min-width:1025px)");
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDropdown = (categoryName) => {
@@ -202,6 +206,7 @@ const MuiDrawer = ({ setMargin }) => {
           // audio={isAudio || audio.file.url}
         />
       )}
+      {/* <Scrollbars style={{ height: "100%" }}> */}
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar position="fixed" open={open}>
@@ -264,13 +269,30 @@ const MuiDrawer = ({ setMargin }) => {
           open={open}
         >
           <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              <div>
+                <Typography
+                  variant="subtitle1"
+                  component="div"
+                  gutterBottom
+                  sx={{ marginLeft: "0.5rem" }}
+                >
+                  Nurul Quran
+                </Typography>
+              </div>
+              <div>
+                <ChevronLeftIcon
+                  onClick={handleDrawerClose}
+                  sx={{ cursor: "pointer" }}
+                />
+              </div>
+            </div>
           </DrawerHeader>
           <Divider />
           <List>
@@ -333,6 +355,7 @@ const MuiDrawer = ({ setMargin }) => {
           <DrawerHeader />
         </Main>
       </Box>
+      {/* </Scrollbars> */}
     </div>
   );
 };

@@ -1,11 +1,11 @@
-import React from "react"
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
-import Slider from "react-slick"
-import "./ImageSlider.css"
-import PopularCard from "../PopularCard/PopularCard"
-import Grid from "@mui/material/Grid"
-import { useSelector } from "react-redux"
+import React from "react";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import "./ImageSlider.css";
+import PopularCard from "../PopularCard/PopularCard";
+import Grid from "@mui/material/Grid";
+import { useSelector } from "react-redux";
 
 const ImageSlider = () => {
   const settings = {
@@ -40,8 +40,6 @@ const ImageSlider = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-      
-
         },
       },
       {
@@ -53,26 +51,35 @@ const ImageSlider = () => {
           centerPadding: "0",
         },
       },
+      {
+        breakpoint: 450,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          centerMode: true,
+          centerPadding: "60px",
+        },
+      },
     ],
-  }
-  const allItems = useSelector(state => state.items?.value || [])
-  const items = allItems?.[0] || []
+  };
+  const allItems = useSelector((state) => state.items?.value || []);
+  const items = allItems?.[0] || [];
 
   return (
     <div>
       <Slider {...settings}>
-        {items?.map(items => {
+        {items?.map((items) => {
           return (
             <div>
               <Grid>
                 <PopularCard item={items} />
               </Grid>
             </div>
-          )
+          );
         })}
       </Slider>
     </div>
-  )
-}
+  );
+};
 
-export default ImageSlider
+export default ImageSlider;
