@@ -1,27 +1,30 @@
-import React, { useState } from "react"
-import ReactAudioPlayer from "react-audio-player"
-import Backdrop from "@mui/material/Backdrop"
-import Box from "@mui/material/Box"
-import Modal from "@mui/material/Modal"
-import Fade from "@mui/material/Fade"
-import Typography from "@mui/material/Typography"
-import CardMedia from "@mui/material/CardMedia"
-import useMediaQuery from '@mui/material/useMediaQuery';
+import React, { useState } from "react";
+import ReactAudioPlayer from "react-audio-player";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
+import CardMedia from "@mui/material/CardMedia";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-
-
-
-const AudioModal = ({ openModal, name, audio, setIsOpen, setIsPlay }) => {
-
+const AudioModal = ({
+  openModal,
+  name,
+  audio,
+  setIsOpen,
+  setIsPlay,
+  categoryName,
+}) => {
   const handleClose = () => {
-    setIsOpen(false)
+    setIsOpen(false);
 
     if (setIsPlay) {
-      setIsPlay(false)
+      setIsPlay(false);
     }
-  }
-  const [open, setOpen] = React.useState(openModal)
-  const isMobile = useMediaQuery('(min-width:600px)');
+  };
+  const [open, setOpen] = React.useState(openModal);
+  const isMobile = useMediaQuery("(min-width:600px)");
 
   const style = {
     position: "absolute",
@@ -33,8 +36,7 @@ const AudioModal = ({ openModal, name, audio, setIsOpen, setIsPlay }) => {
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
-  }
-
+  };
 
   return (
     <div>
@@ -68,8 +70,12 @@ const AudioModal = ({ openModal, name, audio, setIsOpen, setIsPlay }) => {
                 >
                   {name}
                 </Typography>
-                <Typography id="transition-modal-description" sx={{ mt: 0 }}>
-                  {name}
+                <Typography
+                  variant="subtitle2"
+                  id="transition-modal-description"
+                  sx={{ mt: 0 }}
+                >
+                  {categoryName}
                 </Typography>
               </div>
             </div>
@@ -78,7 +84,7 @@ const AudioModal = ({ openModal, name, audio, setIsOpen, setIsPlay }) => {
         </Fade>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default AudioModal
+export default AudioModal;

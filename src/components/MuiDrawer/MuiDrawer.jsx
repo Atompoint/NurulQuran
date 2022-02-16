@@ -281,9 +281,13 @@ const MuiDrawer = ({ setMargin }) => {
                   variant="subtitle1"
                   component="div"
                   gutterBottom
-                  sx={{ marginLeft: "0.5rem" }}
+                  sx={{
+                    marginLeft: "0.5rem",
+                    color: "#106B66",
+                    fontWeight: "bold",
+                  }}
                 >
-                  Nurul Quran
+                  NurulQuran
                 </Typography>
               </div>
               <div>

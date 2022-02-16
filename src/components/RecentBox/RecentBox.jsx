@@ -33,6 +33,7 @@ import { setIsCacheItems, removeCacheItems } from "../../Redux/cacheItems";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import Snackbar from "@mui/material/Snackbar";
 import Popover from "@mui/material/Popover";
+import { set, get } from "idb-keyval";
 
 import {
   EmailShareButton,
@@ -43,10 +44,14 @@ import {
 import "./RecentBox.css";
 
 const RecentBox = ({ item, isCategoryCard, searchModal }) => {
+  // console.log("cheking category", item);
   const dispatch = useDispatch();
   const historyItems = useSelector((state) => state.isPlayed.value);
   const favouriteItems = useSelector((state) => state.isFavourite.value);
   const cacheItems = useSelector((state) => state.isCached.value);
+
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [checkIDB, setcheckIDB] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isFav, setIsFav] = useState(true);
@@ -58,6 +63,12 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = React.useState(false);
   const { name, image, audio } = isCategoryCard ? item : item.node;
+
+  // console.log("item is", item);
+  const categoryName = isCategoryCard
+    ? item?.categories[0].categoryName
+    : item?.node?.categories[0].categoryName;
+
   const URL = `http:${audio.file.url}`;
   const theme = useTheme();
   const matches = useMediaQuery("(min-width:600px)");
@@ -151,7 +162,7 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
   };
 
   //this is the method which triggers on the click of cache button//
-  const setCache = () => {
+  const setCache = async () => {
     fetch(audio.file.url).then((response) => {
       response.blob().then(async (blob) => {
         //  let url = window.URL.createObjectURL(blob)
@@ -172,7 +183,11 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
           fileData: newbase65,
         };
         dispatch(setIsCacheItems(item));
-        localStorage.setItem(obj.fileName, JSON.stringify(obj));
+        await set(obj.fileName, JSON.stringify(obj));
+        // console.log(
+        //   `When we queried idb-keyval for 'hello', we found: ${whatDoWeHave}`
+        // );
+
         setIsCache(!isCache);
       });
     });
@@ -205,6 +220,7 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
           openModal={isOpen}
           setIsOpen={setIsOpen}
           name={name}
+          categoryName={categoryName}
           audio={audio.file.url}
           setIsPlay={setIsPlay}
         />
@@ -234,8 +250,14 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
                   )}
                 </>
                 <div>
-                  <Tooltip title={name}>
+                  <Tooltip
+                    title={name}
+                    open={showTooltip}
+                    onOpen={() => setShowTooltip(true)}
+                    onClose={() => setShowTooltip(false)}
+                  >
                     <Typography
+                      onClick={() => setShowTooltip(!showTooltip)}
                       component="div"
                       variant="subtitle1"
                       style={{ paddingLeft: "1rem" }}

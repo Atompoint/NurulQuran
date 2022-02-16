@@ -35,7 +35,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  word-spacing: 5px;
+  /* word-spacing: 5px; */
   background: #106b66;
   color: #ffff;
 }

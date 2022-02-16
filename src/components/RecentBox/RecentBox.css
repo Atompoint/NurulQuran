@@ -12,7 +12,7 @@
 } */
 .icons {
   margin-left: 1rem;
-  margin-top: 0.7rem;
+  /* margin-top: 0.7rem; */
   display: flex;
 }
 .shareIcons {
@@ -31,7 +31,7 @@
 .css-3bmhjh-MuiPaper-root-MuiPopover-paper{
   box-shadow: none !important;
   /* left: 240px !important;
-  top: 350px !important; */
+  top: 280px !important; */
   background-color: transparent !important;
   border-radius:none !important;
 

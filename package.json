@@ -24,6 +24,7 @@
     "gatsby-source-contentful": "^7.3.2",
     "gatsby-source-filesystem": "^4.5.2",
     "gatsby-transformer-sharp": "^4.5.0",
+    "idb-keyval": "^6.1.0",
     "js-file-downloader": "^1.1.24",
     "prop-types": "^15.8.0",
     "react": "^17.0.1",

@@ -22,6 +22,9 @@ export const query = graphql`
               url
             }
           }
+          categories {
+            categoryName
+          }
         }
       }
     }
@@ -30,8 +33,8 @@ export const query = graphql`
 
 const IndexPage = ({ data }) => {
   const dispatch = useDispatch()
-let  str = "Hello Worls"
-  str=str.split(" ").join("");
+  let str = "Hello Worls"
+  str = str.split(" ").join("")
   // console.log("str is" , str)
 
   useEffect(() => {
