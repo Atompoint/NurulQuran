@@ -1,32 +1,31 @@
-import React, { useState } from "react"
-import "./PopularCard.css"
-import Card from "@mui/material/Card"
-import CardMedia from "@mui/material/CardMedia"
-import Typography from "@mui/material/Typography"
-import CardContent from "@mui/material/CardContent"
-import Tooltip from "@mui/material/Tooltip"
-import { setIsPlayedItems } from "../../Redux/historyItems"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useState } from "react";
+import "./PopularCard.css";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import CardContent from "@mui/material/CardContent";
+import Tooltip from "@mui/material/Tooltip";
+import { setIsPlayedItems } from "../../Redux/historyItems";
+import { useDispatch, useSelector } from "react-redux";
 
-import AudioModal from "../Modal/AudioModal"
+import AudioModal from "../Modal/AudioModal";
 
 const PopularCard = ({ item }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const historyItems = useSelector(state => state.isPlayed.value)
-  const dispatch = useDispatch()
-
+  const [isOpen, setIsOpen] = useState(false);
+  const historyItems = useSelector((state) => state.isPlayed.value);
+  const dispatch = useDispatch();
 
   const handleOpen = () => {
-    setIsOpen(true)
+    setIsOpen(true);
 
-    let obj = historyItems.find(obj => obj?.node?.name === name)
+    let obj = historyItems.find((obj) => obj?.node?.name === name);
     if (!obj) {
-      dispatch(setIsPlayedItems(item))
+      dispatch(setIsPlayedItems(item));
     }
-  }
+  };
 
-  // console.log("$$$$", item.node)
-  const { name, image, audio } = item.node
+  const { name, image, audio } = item.node;
+  const categoryName = item?.node?.categories[0].categoryName;
 
   return (
     <div>
@@ -36,13 +35,13 @@ const PopularCard = ({ item }) => {
           setIsOpen={setIsOpen}
           name={name}
           audio={audio.file.url}
+          categoryName={categoryName}
         />
       )}
       <Card className="popularCard" onClick={handleOpen}>
         <CardMedia
-        className="cardMedia"
+          className="cardMedia"
           component="img"
-         
           image={image.file.url}
           alt="Nurul Quran"
         />
@@ -56,7 +55,7 @@ const PopularCard = ({ item }) => {
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default PopularCard
+export default PopularCard;

@@ -1,22 +1,10 @@
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
   align-items: center;
 }
 
-.searchIconBox{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  /* background-color: #4C908C; */
-  background: #4C908C ;
-  /* width: 40px; */
-  padding: 0.2rem 0.5rem;
-  cursor: pointer;
-
-}
 .searchBox{
   display: flex;
   justify-content: center;

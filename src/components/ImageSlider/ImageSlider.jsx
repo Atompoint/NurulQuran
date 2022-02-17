@@ -68,9 +68,9 @@ const ImageSlider = () => {
   return (
     <div>
       <Slider {...settings}>
-        {items?.map((items) => {
+        {items?.map((items, index) => {
           return (
-            <div>
+            <div key={index}>
               <Grid>
                 <PopularCard item={items} />
               </Grid>

@@ -38,7 +38,7 @@ const SearchModal = ({ openModal, setIsOpen, setIsPlay }) => {
     setSearchField(e.target.value);
   };
 
-  console.log("filtered item are ", filteredItem);
+  // console.log("filtered item are ", filteredItem);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -107,9 +107,9 @@ const SearchModal = ({ openModal, setIsOpen, setIsPlay }) => {
             >
               <Scrollbars style={{ height: "100%" }}>
                 {searchField !== "" &&
-                  filteredItem?.map((items) => {
+                  filteredItem?.map((items, index) => {
                     return (
-                      <div>
+                      <div key={index}>
                         <Grid>
                           <RecentBox item={items} searchModal={true} />
                         </Grid>

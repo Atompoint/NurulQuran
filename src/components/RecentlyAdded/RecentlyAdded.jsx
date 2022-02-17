@@ -42,11 +42,11 @@ const RecentlyAdded = () => {
           </Typography>
           <div className="recentlyAddedLeftSec">
             <Scrollbars style={{ height: 570 }}>
-              {items?.map((items) => {
+              {items?.map((items, index) => {
                 return (
-                  <div>
+                  <div key={index}>
                     <Grid>
-                      <RecentBox item={items} />
+                      <RecentBox item={items} recentBox={true} />
                     </Grid>
                   </div>
                 );
@@ -61,15 +61,15 @@ const RecentlyAdded = () => {
               gutterBottom
               component="div"
               color="#106B66"
-              sx={{ fontWeight: "bold" }}
+              sx={{ fontWeight: "bold", padding: "1rem 0rem" }}
             >
               History
             </Typography>
             <div className="recentlyAddedInnerHistorySec">
               <Scrollbars style={{ height: 240 }}>
-                {historyItems?.map((items) => {
+                {historyItems?.map((items, index) => {
                   return (
-                    <div>
+                    <div key={index}>
                       <Grid>
                         <HistoryBox item={items} />
                       </Grid>
@@ -86,15 +86,15 @@ const RecentlyAdded = () => {
               gutterBottom
               component="div"
               color="#106B66"
-              sx={{ fontWeight: "bold", marginTop: "1rem" }}
+              sx={{ fontWeight: "bold", padding: "1rem 0rem" }}
             >
               Favourite
             </Typography>
             <div className="recentlyAddedInnerFavouriteSec">
               <Scrollbars style={{ height: 240 }}>
-                {favouriteItems?.map((items) => {
+                {favouriteItems?.map((items, index) => {
                   return (
-                    <div>
+                    <div key={index}>
                       <Grid>
                         <HistoryBox item={items} isfavourite={true} />
                       </Grid>

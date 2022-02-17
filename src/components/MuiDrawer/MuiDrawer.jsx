@@ -221,9 +221,6 @@ const MuiDrawer = ({ setMargin }) => {
               <MenuIcon />
             </IconButton>
             <div className="header">
-              <div className="searchIconBox">
-                <SearchIcon onClick={() => setIsOpen(true)} />
-              </div>
               <div
                 style={{
                   display: "flex",
@@ -236,17 +233,20 @@ const MuiDrawer = ({ setMargin }) => {
                   style={{
                     color: `white`,
                     textDecoration: `none`,
-                    padding: matches ? "0rem 0.5rem" : "0rem 0.5rem",
+                    padding: matches ? "0rem 1rem" : "0rem 1rem",
                   }}
                 >
                   <HomeIcon />
                 </Link>
+                <div>
+                  <SearchIcon onClick={() => setIsOpen(true)} />
+                </div>
                 <Link
                   to="/favourite"
                   style={{
                     color: `white`,
                     textDecoration: `none`,
-                    padding: matches ? "0rem 0.5rem" : "0rem 0.5rem",
+                    padding: matches ? "0rem 1rem" : "0rem 1rem",
                   }}
                 >
                   <FavoriteBorderIcon />
@@ -278,9 +278,9 @@ const MuiDrawer = ({ setMargin }) => {
             >
               <div>
                 <Typography
-                  variant="subtitle1"
+                  variant="h6"
                   component="div"
-                  gutterBottom
+                  // gutterBottom
                   sx={{
                     marginLeft: "0.5rem",
                     color: "#106B66",
@@ -301,7 +301,7 @@ const MuiDrawer = ({ setMargin }) => {
           <Divider />
           <List>
             {parentItems.map((item, index) => (
-              <>
+              <div key={index}>
                 <ListItemButton
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
@@ -326,9 +326,10 @@ const MuiDrawer = ({ setMargin }) => {
                     ))}
                 </ListItemButton>
                 {item.node.subCategoryName?.length > 0 &&
-                  item.node.subCategoryName?.map((subCategory) => {
+                  item.node.subCategoryName?.map((subCategory, index) => {
                     return (
                       <Collapse
+                        key={index}
                         in={openMenuDropdown[item.node.categoryName]}
                         timeout="auto"
                         unmountOnExit
@@ -351,7 +352,7 @@ const MuiDrawer = ({ setMargin }) => {
                       </Collapse>
                     );
                   })}
-              </>
+              </div>
             ))}
           </List>
         </Drawer>

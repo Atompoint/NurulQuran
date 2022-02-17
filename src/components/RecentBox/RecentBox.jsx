@@ -29,13 +29,11 @@ import {
   setIsFavouriteItems,
   setIsRemoveFavouriteItems,
 } from "../../Redux/favouriteItems";
-
 import { setIsCacheItems, removeCacheItems } from "../../Redux/cacheItems";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import Snackbar from "@mui/material/Snackbar";
 import Popover from "@mui/material/Popover";
 import { set, get } from "idb-keyval";
-
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -43,53 +41,52 @@ import {
   WhatsappShareButton,
 } from "react-share";
 import "./RecentBox.css";
-
-const RecentBox = ({ item, isCategoryCard, searchModal }) => {
+const RecentBox = ({
+  item,
+  isCategoryCard,
+  searchModal,
+  categoryName,
+  recentBox,
+}) => {
   // console.log("cheking category", item);
   const dispatch = useDispatch();
   const historyItems = useSelector((state) => state.isPlayed.value);
   const favouriteItems = useSelector((state) => state.isFavourite.value);
   const cacheItems = useSelector((state) => state.isCached.value);
-
   const [showTooltip, setShowTooltip] = useState(false);
   const [checkIDB, setcheckIDB] = useState(false);
-
   const [isOpen, setIsOpen] = useState(false);
   const [isFav, setIsFav] = useState(true);
   const [isCache, setIsCache] = useState(true);
   const [isAudio, setIsAudio] = useState(undefined);
   const [audioPlaylist, setAudioPlatlist] = useState([]);
-
   const [isPlay, setIsPlay] = useState(false);
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = React.useState(false);
-  const { name, image, audio } = isCategoryCard ? item : item.node;
+  const { name, image, audio, categories } = isCategoryCard ? item : item.node;
 
+  console.log("search ", item);
+  // const categoryName = item.node.categories[0].categoryName;
+
+  // console.log("the item are", categories[0].categoryName);
   // console.log("item is", item);
-  const categoryName = isCategoryCard
-    ? item?.categories[0].categoryName
-    : item?.node?.categories[0].categoryName;
-
+  // const categoryName = isCategoryCard
+  //   ? item?.categories[0].categoryName
+  //   : item?.node?.categories[0].categoryName;
   const URL = `http:${audio.file.url}`;
   const theme = useTheme();
   const matches = useMediaQuery("(min-width:600px)");
   const isMobile = useMediaQuery("(min-width:600px)");
-
   // console.log("^^^^^" , item)
   // console.log("Checking" , item)
-
   const [anchorEl, setAnchorEl] = React.useState(null);
-
   const handleClickPopover = (event) => {
     setChecked((prev) => !prev);
-
     setAnchorEl(event.currentTarget);
   };
-
   const handleClosePopover = () => {
     setAnchorEl(null);
   };
-
   const openPopover = Boolean(anchorEl);
   const id = openPopover ? "simple-popover" : undefined;
 
@@ -102,7 +99,6 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
     } else {
       setIsFav(true);
     }
-
     let foundCacheItem = cacheItems.find((obj) =>
       obj.node ? obj.node?.name === name : obj.name === name
     );
@@ -112,29 +108,23 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
       setIsCache(true);
     }
   }, [favouriteItems]);
-
   const handleClick = () => {
     setOpen(true);
   };
-
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
-
   const handleOpen = () => {
     setIsOpen(true);
     setIsPlay(true);
-
     let obj = historyItems.find((obj) => obj?.node?.name === name);
     if (!obj) {
       dispatch(setIsPlayedItems(item));
     }
   };
-
   const download = () => {
     fetch(audio.file.url).then((response) => {
       response.blob().then((blob) => {
@@ -146,7 +136,6 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
       });
     });
   };
-
   const handleChange = () => {};
   const setFavourite = () => {
     // let obj = historyItems.find(obj => obj?.node?.name === item.node.name)
@@ -161,7 +150,6 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
     dispatch(setIsRemoveFavouriteItems(item));
     setIsFav(false);
   };
-
   //this is the method which triggers on the click of cache button//
   const setCache = async () => {
     setcheckIDB(true);
@@ -169,17 +157,13 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
       response.blob().then(async (blob) => {
         //  let url = window.URL.createObjectURL(blob)
         //  console.log("blob" , blob)
-
         //converting blob to array buffer//
         const newBlob = await new Response(blob).arrayBuffer();
         //  console.log("new Blob is" , newBlob)
-
         // //converting array buffet to base64//
         const newbase65 = _arrayBufferToBase64(newBlob);
         // console.log("base64" , newbase65)
-
         //  //setting base64 value to local Storage//
-
         const obj = {
           fileName: name,
           fileData: newbase65,
@@ -189,13 +173,11 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
         // console.log(
         //   `When we queried idb-keyval for 'hello', we found: ${whatDoWeHave}`
         // );
-
         setIsCache(!isCache);
         setcheckIDB(false);
       });
     });
   };
-
   function _arrayBufferToBase64(buffer) {
     var binary = "";
     var bytes = new Uint8Array(buffer);
@@ -205,17 +187,13 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
     }
     return window.btoa(binary);
   }
-
   //-------------------End ------------------//
-
   const removeCache = () => {
     setIsCache(!isCache);
     dispatch(removeCacheItems(item));
     localStorage.removeItem(name);
-
     // console.log("###", item)
   };
-
   return (
     <div>
       {isOpen && (
@@ -223,7 +201,11 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
           openModal={isOpen}
           setIsOpen={setIsOpen}
           name={name}
-          categoryName={categoryName}
+          categoryName={
+            recentBox || searchModal
+              ? item.node.categories[0].categoryName
+              : categoryName
+          }
           audio={audio.file.url}
           setIsPlay={setIsPlay}
         />
@@ -272,7 +254,6 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
                 </div>
               </CardContent>
             </div>
-
             <div className="icons">
               <Tooltip title="Download offline">
                 <IconButton>
@@ -299,60 +280,51 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
                   <DownloadIcon onClick={download} />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Share links">
-                <IconButton>
-                  <ShareIcon onClick={handleClickPopover} />
-                </IconButton>
-              </Tooltip>
-
-              {checked && (
-                <div>
-                  <Popover
-                    id={id}
-                    open={openPopover}
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "left",
+              <IconButton>
+                <ShareIcon onClick={handleClickPopover} />
+              </IconButton>
+              <Popover
+                id={id}
+                open={openPopover}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                onClose={handleClosePopover}
+              >
+                <div className="shareIcons">
+                  <InsertLinkOutlinedIcon
+                    sx={{
+                      cursor: "pointer",
                     }}
-                    onClose={handleClosePopover}
-                  >
-                    <div className="shareIcons">
-                      <InsertLinkOutlinedIcon
-                        sx={{
-                          cursor: "pointer",
-                          fontSize: "1.8rem",
-                          paddingBottom: "0.2rem",
-                        }}
-                        onClick={() => {
-                          navigator.clipboard.writeText(URL);
-                          handleClick();
-                        }}
-                      />
-                      <TwitterShareButton url={URL} title={name} quote={name}>
-                        <TwitterIcon
-                          sx={{ color: "#05ABED", paddingLeft: "0.3rem" }}
-                        />
-                      </TwitterShareButton>
-                      <EmailShareButton url={URL} title={name} quote={name}>
-                        <MailOutlineOutlinedIcon
-                          sx={{ color: "#878787", paddingLeft: "0.3rem" }}
-                        />
-                      </EmailShareButton>
-                      <WhatsappShareButton url={URL} title={name} quote={name}>
-                        <WhatsappOutlinedIcon
-                          sx={{ color: "#24D366", paddingLeft: "0.3rem" }}
-                        />
-                      </WhatsappShareButton>
-                      <FacebookShareButton url={URL} title={name} quote={name}>
-                        <FacebookOutlinedIcon
-                          sx={{ color: "#3C5997", paddingLeft: "0.3rem" }}
-                        />
-                      </FacebookShareButton>
-                    </div>
-                  </Popover>
+                    onClick={() => {
+                      navigator.clipboard.writeText(URL);
+                      handleClick();
+                    }}
+                  />
+                  <TwitterShareButton url={URL} title={name} quote={name}>
+                    <TwitterIcon
+                      style={{ color: "#05ABED", marginLeft: "8px" }}
+                    />
+                  </TwitterShareButton>
+                  <EmailShareButton url={URL} title={name} quote={name}>
+                    <MailOutlineOutlinedIcon
+                      style={{ color: "#878787", marginLeft: "8px" }}
+                    />
+                  </EmailShareButton>
+                  <WhatsappShareButton url={URL} title={name} quote={name}>
+                    <WhatsappOutlinedIcon
+                      style={{ color: "#24D366", marginLeft: "8px" }}
+                    />
+                  </WhatsappShareButton>
+                  <FacebookShareButton url={URL} title={name} quote={name}>
+                    <FacebookOutlinedIcon
+                      style={{ color: "#3C5997", marginLeft: "8px" }}
+                    />
+                  </FacebookShareButton>
                 </div>
-              )}
+              </Popover>
             </div>
           </Box>
         </div>
@@ -366,5 +338,4 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
     </div>
   );
 };
-
 export default RecentBox;

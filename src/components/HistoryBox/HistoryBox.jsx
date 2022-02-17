@@ -8,7 +8,7 @@ import { setIsRemoveFavouriteItems } from "../../Redux/favouriteItems";
 import { useDispatch, useSelector } from "react-redux";
 import { removeCacheItems } from "../../Redux/cacheItems";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
-import { set, get } from "idb-keyval";
+import { set, get, del } from "idb-keyval";
 
 import { navigate } from "gatsby";
 
@@ -20,6 +20,9 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
   const [isAudio, setIsAudio] = useState("");
 
   const { name, image, audio, isCategory, redirectLink } = item.node || item;
+  const categoryName = item.node.categories[0].categoryName;
+  // const categoryName =
+  //   item?.categories[0].length > 0 && item?.categories[0].categoryName;
 
   const handleOpen = () => {
     if (isCategory) {
@@ -70,7 +73,8 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
   };
   const removeCache = () => {
     dispatch(removeCacheItems(item));
-    localStorage.removeItem(name);
+    // localStorage.removeItem(name);
+    del(name);
   };
   return (
     <div>
@@ -79,6 +83,7 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
           openModal={isOpen}
           setIsOpen={setIsOpen}
           name={name}
+          categoryName={categoryName}
           audio={isAudio || audio.file.url}
         />
       )}

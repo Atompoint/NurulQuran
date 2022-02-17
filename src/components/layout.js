@@ -43,10 +43,10 @@ const Layout = ({ children }) => {
       </div>
       <footer className="footerSection">
         <Grid container>
-          <Grid xs={12} lg={8} className="footerHead">
+          <Grid item xs={12} lg={8} className="footerHead">
             <p>NurulQuran Ⓒ2022 powered by Atompoint</p>
           </Grid>
-          <Grid xs={0} lg={4} className="footerInnerSection"></Grid>
+          <Grid item xs={0} lg={4} className="footerInnerSection"></Grid>
         </Grid>
       </footer>
     </ThemeProvider>
