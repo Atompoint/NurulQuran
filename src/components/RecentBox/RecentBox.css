@@ -34,6 +34,8 @@
   top: 280px !important; */
   background-color: transparent !important;
   border-radius:none !important;
+  height: 100px !important;
+
 
 
 }
@@ -55,23 +57,34 @@
   }
   .icons > * {
     color: #808080;
-    padding: 0rem 0.1rem !important;
+    padding: 0rem 0.3rem !important;
     /* font-size: 0.5rem !important; */
     /* height: 0.5em !important; */
 
     
   }
-  .shareIcons {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start !important;
-  }
+  
   .shareIcons > * {
     margin-left: 0.2rem !important;
     /* font-size: 2rem !important; */
-    height: 0.5em !important;
+    /* height: 0.5em !important; */
   }
   .forEllipses{ width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .css-3bmhjh-MuiPaper-root-MuiPopover-paper{
+   height: 100px !important;
+   position: relative !important;
+    left: 160px !important;
+    top: 250px !important;
+   
+  
+  
+  }
+  /* .shareIcons {
+    height: 100px;
+    position: relative;
+    bottom: 50%;
+    left: -20%;
+  } */
   
   
   

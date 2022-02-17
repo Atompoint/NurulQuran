@@ -22,6 +22,7 @@ import AudioModal from "../Modal/AudioModal";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsPlayedItems } from "../../Redux/historyItems";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import CircularProgress from "@mui/material/CircularProgress";
 import img from "../../images/gatsby-icon.png";
 import {
   counterSlice,
@@ -163,6 +164,7 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
 
   //this is the method which triggers on the click of cache button//
   const setCache = async () => {
+    setcheckIDB(true);
     fetch(audio.file.url).then((response) => {
       response.blob().then(async (blob) => {
         //  let url = window.URL.createObjectURL(blob)
@@ -189,6 +191,7 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
         // );
 
         setIsCache(!isCache);
+        setcheckIDB(false);
       });
     });
   };
@@ -273,10 +276,14 @@ const RecentBox = ({ item, isCategoryCard, searchModal }) => {
             <div className="icons">
               <Tooltip title="Download offline">
                 <IconButton>
-                  <DownloadForOfflineIcon
-                    onClick={isCache ? setCache : removeCache}
-                    sx={{ color: isCache ? "#797979" : "#24D366" }}
-                  />
+                  {!checkIDB ? (
+                    <DownloadForOfflineIcon
+                      onClick={isCache ? setCache : removeCache}
+                      sx={{ color: isCache ? "#797979" : "#24D366" }}
+                    />
+                  ) : (
+                    <CircularProgress size={20} />
+                  )}
                 </IconButton>
               </Tooltip>
               <Tooltip title="Add to favourite">
