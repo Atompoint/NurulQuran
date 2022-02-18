@@ -18,7 +18,9 @@ const PopularCard = ({ item }) => {
   const handleOpen = () => {
     setIsOpen(true);
 
-    let obj = historyItems.find((obj) => obj?.node?.name === name);
+    let obj = historyItems.find((obj) =>
+      obj.node ? obj.node?.name === name : obj.name === name
+    );
     if (!obj) {
       dispatch(setIsPlayedItems(item));
     }

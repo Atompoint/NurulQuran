@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -18,11 +18,26 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isAudio, setIsAudio] = useState("");
+  const allItems = useSelector((state) => state.items?.value || []);
+  const allAudios = allItems?.[0] || [];
+  const [category, setCategory] = useState("");
 
   const { name, image, audio, isCategory, redirectLink } = item.node || item;
-  const categoryName = item.node.categories[0].categoryName;
+  // console.log("audios is", allAudios);
+  // const categoryName = item.node.categories[0].categoryName;
   // const categoryName =
   //   item?.categories[0].length > 0 && item?.categories[0].categoryName;
+
+  useEffect(() => {
+    let foundFavItem = allAudios.find(
+      (obj) => (obj.node ? obj.node?.name === name : obj.name === name)
+      // console.log(name, "-->", obj.node.name)
+    );
+    if (foundFavItem) {
+      setCategory(foundFavItem.node.categories[0].categoryName);
+      // console.log("**", );
+    }
+  }, []);
 
   const handleOpen = () => {
     if (isCategory) {
@@ -83,7 +98,7 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
           openModal={isOpen}
           setIsOpen={setIsOpen}
           name={name}
-          categoryName={categoryName}
+          categoryName={category}
           audio={isAudio || audio.file.url}
         />
       )}

@@ -41,7 +41,7 @@ const Page = ({ data, pageContext }) => {
   // const items = allItems[0]
   const matches = useMediaQuery("(min-width:600px)")
   const classes = useStyles()
-  const [isFav, setIsFav] = useState(true)
+  const [isFav, setIsFav] = useState(false)
   const [pageData, setPageData] = useState([])
   const name = pageContext?.categoryName
 
@@ -50,9 +50,9 @@ const Page = ({ data, pageContext }) => {
       obj.node ? obj.node?.name === name : obj.name === name
     )
     if (foundFavItem) {
-      setIsFav(false)
-    } else {
       setIsFav(true)
+    } else {
+      setIsFav(false)
     }
 
     const items = data?.allContentfulCategories?.edges
@@ -113,10 +113,10 @@ const Page = ({ data, pageContext }) => {
               </>
               <>
                 <FavoriteBorderIcon
-                  onClick={isFav ? setFavourite : removeFavourite}
+                  onClick={isFav ? removeFavourite : setFavourite}
                   sx={{
                     cursor: "pointer",
-                    color: isFav ? "#797979" : "#F06464",
+                    color: isFav ? "#F06464" : "#797979",
                   }}
                 />
               </>

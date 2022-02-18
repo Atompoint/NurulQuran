@@ -1,29 +1,16 @@
 .recentCard {
-  /* display: flex; */
+  
   border-radius : 10px;
   border        : 1px solid #e0e0e0;
   margin-bottom : 1rem;
-  /* margin-left: 0.3rem; */
-  margin-right  : 1rem;
   background    : #f8f8f8;
 }
-/* .recentCard :first-child {
-  margin-top: 0rem !important;
-} */
+
 .icons {
   margin-left  : 1rem;
-  /* margin-top: 0.7rem; */
+
   display      : flex;
 }
-/* .shareIcons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-left: 2rem;
-} */
-/* .shareIcons > * {
-  font-size: 1.5rem;
-} */
 .icons>* {
   color: #808080;
 }
@@ -35,19 +22,13 @@
   }
 }
 @media only screen and (max-width: 500px) {
-  .recentCard {
-    margin-left : 0rem;
-    margin-right: 1rem;
-  }
+  
   .icons>* {
     color       : #808080;
     padding     : 0rem 0.3rem !important;
-    /* font-size: 0.5rem !important; */
-    /* height   : 0.5em !important; */
+  
   }
-  /* .shareIcons > * {
-    margin-left: 0.2rem !important;
-  } */
+  
   .forEllipses {
     width        : 200px;
     overflow     : hidden;
@@ -63,4 +44,14 @@
 }
 .shareIcons {
   padding: 5px 10px 0 10px
+}
+@media only screen and (max-width: 400px) {
+ 
+  .forEllipses {
+    width        : 180px;
+    overflow     : hidden;
+    text-overflow: ellipsis;
+    white-space  : nowrap;
+  }
+  
 }

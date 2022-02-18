@@ -61,7 +61,10 @@ const RecentlyAdded = () => {
               gutterBottom
               component="div"
               color="#106B66"
-              sx={{ fontWeight: "bold", padding: "1rem 0rem" }}
+              sx={{
+                fontWeight: "bold",
+                padding: matches ? "0rem 0rem" : "1rem 0rem",
+              }}
             >
               History
             </Typography>
@@ -86,7 +89,10 @@ const RecentlyAdded = () => {
               gutterBottom
               component="div"
               color="#106B66"
-              sx={{ fontWeight: "bold", padding: "1rem 0rem" }}
+              sx={{
+                fontWeight: "bold",
+                padding: matches ? "0rem 0rem" : "1rem 0rem",
+              }}
             >
               Favourite
             </Typography>

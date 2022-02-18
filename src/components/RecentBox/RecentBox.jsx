@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setIsPlayedItems } from "../../Redux/historyItems";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CircularProgress from "@mui/material/CircularProgress";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import img from "../../images/gatsby-icon.png";
 import {
   counterSlice,
@@ -36,6 +37,7 @@ import Popover from "@mui/material/Popover";
 import { set, get } from "idb-keyval";
 import {
   EmailShareButton,
+  LinkedinShareButton,
   FacebookShareButton,
   TwitterShareButton,
   WhatsappShareButton,
@@ -56,8 +58,8 @@ const RecentBox = ({
   const [showTooltip, setShowTooltip] = useState(false);
   const [checkIDB, setcheckIDB] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [isFav, setIsFav] = useState(true);
-  const [isCache, setIsCache] = useState(true);
+  const [isFav, setIsFav] = useState(false);
+  const [isCache, setIsCache] = useState(false);
   const [isAudio, setIsAudio] = useState(undefined);
   const [audioPlaylist, setAudioPlatlist] = useState([]);
   const [isPlay, setIsPlay] = useState(false);
@@ -65,7 +67,7 @@ const RecentBox = ({
   const [checked, setChecked] = React.useState(false);
   const { name, image, audio, categories } = isCategoryCard ? item : item.node;
 
-  console.log("search ", item);
+  // console.log("search ", item);
   // const categoryName = item.node.categories[0].categoryName;
 
   // console.log("the item are", categories[0].categoryName);
@@ -91,23 +93,25 @@ const RecentBox = ({
   const id = openPopover ? "simple-popover" : undefined;
 
   useEffect(() => {
-    let foundFavItem = favouriteItems.find((obj) =>
-      obj.node ? obj.node?.name === name : obj.name === name
+    let foundFavItem = favouriteItems.find(
+      (obj) => (obj.node ? obj.node?.name === name : obj.name === name)
+      // console.log(name, "-->", obj.node.name)
     );
     if (foundFavItem) {
-      setIsFav(false);
-    } else {
       setIsFav(true);
+      // console.log("**", name);
+    } else {
+      setIsFav(false);
     }
     let foundCacheItem = cacheItems.find((obj) =>
       obj.node ? obj.node?.name === name : obj.name === name
     );
     if (foundCacheItem) {
-      setIsCache(false);
-    } else {
       setIsCache(true);
+    } else {
+      setIsCache(false);
     }
-  }, [favouriteItems]);
+  }, [favouriteItems, item]);
   const handleClick = () => {
     setOpen(true);
   };
@@ -120,7 +124,9 @@ const RecentBox = ({
   const handleOpen = () => {
     setIsOpen(true);
     setIsPlay(true);
-    let obj = historyItems.find((obj) => obj?.node?.name === name);
+    let obj = historyItems.find((obj) =>
+      obj.node ? obj.node?.name === name : obj.name === name
+    );
     if (!obj) {
       dispatch(setIsPlayedItems(item));
     }
@@ -136,14 +142,11 @@ const RecentBox = ({
       });
     });
   };
-  const handleChange = () => {};
   const setFavourite = () => {
     // let obj = historyItems.find(obj => obj?.node?.name === item.node.name)
     // console.log("item is", item)
     dispatch(setIsFavouriteItems(item));
-    // console.log("Before",isFav)
     setIsFav(true);
-    // console.log("After",isFav)
   };
   const removeFavourite = () => {
     // console.log("Remove fav",item)
@@ -173,7 +176,7 @@ const RecentBox = ({
         // console.log(
         //   `When we queried idb-keyval for 'hello', we found: ${whatDoWeHave}`
         // );
-        setIsCache(!isCache);
+        setIsCache(true);
         setcheckIDB(false);
       });
     });
@@ -189,7 +192,7 @@ const RecentBox = ({
   }
   //-------------------End ------------------//
   const removeCache = () => {
-    setIsCache(!isCache);
+    setIsCache(false);
     dispatch(removeCacheItems(item));
     localStorage.removeItem(name);
     // console.log("###", item)
@@ -259,8 +262,8 @@ const RecentBox = ({
                 <IconButton>
                   {!checkIDB ? (
                     <DownloadForOfflineIcon
-                      onClick={isCache ? setCache : removeCache}
-                      sx={{ color: isCache ? "#797979" : "#24D366" }}
+                      onClick={isCache ? removeCache : setCache}
+                      sx={{ color: isCache ? "#24D366" : "#797979" }}
                     />
                   ) : (
                     <CircularProgress size={20} />
@@ -270,8 +273,8 @@ const RecentBox = ({
               <Tooltip title="Add to favourite">
                 <IconButton>
                   <FavoriteBorderIcon
-                    onClick={isFav ? setFavourite : removeFavourite}
-                    sx={{ color: isFav ? "#797979" : "#F06464" }}
+                    onClick={isFav ? removeFavourite : setFavourite}
+                    sx={{ color: isFav ? "#F06464" : "#797979" }}
                   />
                 </IconButton>
               </Tooltip>
@@ -308,11 +311,11 @@ const RecentBox = ({
                       style={{ color: "#05ABED", marginLeft: "8px" }}
                     />
                   </TwitterShareButton>
-                  <EmailShareButton url={URL} title={name} quote={name}>
-                    <MailOutlineOutlinedIcon
+                  <LinkedinShareButton url={URL} title={name} quote={name}>
+                    <LinkedInIcon
                       style={{ color: "#878787", marginLeft: "8px" }}
                     />
-                  </EmailShareButton>
+                  </LinkedinShareButton>
                   <WhatsappShareButton url={URL} title={name} quote={name}>
                     <WhatsappOutlinedIcon
                       style={{ color: "#24D366", marginLeft: "8px" }}

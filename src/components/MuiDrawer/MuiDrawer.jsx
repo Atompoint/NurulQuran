@@ -239,7 +239,10 @@ const MuiDrawer = ({ setMargin }) => {
                   <HomeIcon />
                 </Link>
                 <div>
-                  <SearchIcon onClick={() => setIsOpen(true)} />
+                  <SearchIcon
+                    onClick={() => setIsOpen(true)}
+                    sx={{ cursor: "pointer" }}
+                  />
                 </div>
                 <Link
                   to="/favourite"

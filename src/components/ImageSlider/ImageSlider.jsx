@@ -55,7 +55,7 @@ const ImageSlider = () => {
         breakpoint: 450,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1,
+          slidesToScroll: 0,
           centerMode: true,
           centerPadding: "60px",
         },
