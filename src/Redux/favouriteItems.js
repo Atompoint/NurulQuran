@@ -18,11 +18,7 @@ export const counterSlice = createSlice({
       return {
         ...state,
         value: state.value.filter(item => {
-          if (item.node) {
-            return item.node.name !== (action.payload.node?.name || action.payload.name)
-          } else  {
-            return item.name !== (action.payload.name || action.payload.node?.name)
-          }
+          return item.node.name !== action.payload.name
         }),
       }
     },

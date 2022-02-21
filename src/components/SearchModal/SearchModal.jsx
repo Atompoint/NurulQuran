@@ -12,12 +12,6 @@ import Grid from "@mui/material/Grid";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Scrollbars } from "react-custom-scrollbars";
 
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-
 const SearchModal = ({ openModal, setIsOpen, setIsPlay }) => {
   const [searchField, setSearchField] = useState("");
   const [filteredItem, setFilteredItem] = useState([]);
@@ -37,8 +31,6 @@ const SearchModal = ({ openModal, setIsOpen, setIsPlay }) => {
   const handleChange = (e) => {
     setSearchField(e.target.value);
   };
-
-  // console.log("filtered item are ", filteredItem);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -78,7 +70,7 @@ const SearchModal = ({ openModal, setIsOpen, setIsPlay }) => {
         }}
       >
         <Fade in={open}>
-          <Box sx={style} className="modalBox">
+          <Box sx={style} className={isMobile && "modalBox"}>
             <Box sx={{ textAlign: "right" }}>
               <ClearIcon
                 onClick={handleClose}
@@ -111,7 +103,7 @@ const SearchModal = ({ openModal, setIsOpen, setIsPlay }) => {
                     return (
                       <div key={index}>
                         <Grid>
-                          <RecentBox item={items} searchModal={true} />
+                          <RecentBox item={items.node} searchModal={true} />
                         </Grid>
                       </div>
                     );

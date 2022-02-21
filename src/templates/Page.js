@@ -2,27 +2,20 @@ import * as React from "react"
 import { styled } from "@mui/material/styles"
 import Grid from "@mui/material/Grid"
 import Paper from "@mui/material/Paper"
-import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
-import RecentBox from "../components/RecentBox/RecentBox"
-import HistoryBox from "../components/HistoryBox/HistoryBox"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import useMediaQuery from "@mui/material/useMediaQuery"
 import { useStyles } from "./Page.styles"
 import CardMedia from "@mui/material/CardMedia"
-import CardContent from "@mui/material/CardContent"
-import Card from "@mui/material/Card"
-import PlayArrowIcon from "@mui/icons-material/PlayArrow"
+
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
 import {
-  counterSlice,
   setIsFavouriteItems,
   setIsRemoveFavouriteItems,
 } from "../Redux/favouriteItems"
 import { graphql } from "gatsby"
 import CategoryCard from "../components/CategoryCard/CategoryCard"
-import { removeCacheItems } from "../Redux/cacheItems"
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -32,8 +25,6 @@ const Item = styled(Paper)(({ theme }) => ({
 }))
 
 const Page = ({ data, pageContext }) => {
-  const allItems = useSelector(state => state.items.value)
-  const historyItems = useSelector(state => state.isPlayed.value)
   const favouriteItems = useSelector(state => state.isFavourite.value)
 
   const dispatch = useDispatch()
@@ -62,7 +53,7 @@ const Page = ({ data, pageContext }) => {
   }, [favouriteItems])
 
   // console.log("Dynamic data " , pageContext.categoryName)
-  // console.log("Dynamic Page data ", pageData)
+  // console.log("Dynamic Page data ", data)
 
   const item = {
     name: pageContext?.categoryName,
@@ -74,8 +65,16 @@ const Page = ({ data, pageContext }) => {
   }
   const setFavourite = () => {
     // let obj = historyItems.find(obj => obj?.node?.name === item.node.name)
-    // console.log("item is", item)
-    dispatch(setIsFavouriteItems(item))
+
+    if (item?.node) {
+      dispatch(setIsFavouriteItems(item))
+    } else {
+      const obj = {
+        node: item,
+      }
+      dispatch(setIsFavouriteItems(obj))
+    }
+
     // console.log("Before",isFav)
     setIsFav(true)
     // console.log("After",isFav)
@@ -125,9 +124,9 @@ const Page = ({ data, pageContext }) => {
         </Grid>
         <Grid item xl={7} lg={7} md={7} xs={12}>
           <div className="recentlyAddedLeftSec">
-            {pageData?.map(items => {
+            {pageData?.map((items, index) => {
               return (
-                <div>
+                <div key={index}>
                   <Grid>
                     <CategoryCard item={items} categoryName={name} />
                   </Grid>
@@ -178,6 +177,9 @@ export const PageQuery = graphql`
                 file {
                   url
                 }
+              }
+              categories {
+                categoryName
               }
             }
           }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -7,13 +6,11 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DownloadIcon from "@mui/icons-material/Download";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import WhatsappOutlinedIcon from "@mui/icons-material/WhatsappOutlined";
-import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
 import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import IconButton from "@mui/material/IconButton";
@@ -24,9 +21,7 @@ import { setIsPlayedItems } from "../../Redux/historyItems";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CircularProgress from "@mui/material/CircularProgress";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import img from "../../images/gatsby-icon.png";
 import {
-  counterSlice,
   setIsFavouriteItems,
   setIsRemoveFavouriteItems,
 } from "../../Redux/favouriteItems";
@@ -34,9 +29,8 @@ import { setIsCacheItems, removeCacheItems } from "../../Redux/cacheItems";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import Snackbar from "@mui/material/Snackbar";
 import Popover from "@mui/material/Popover";
-import { set, get } from "idb-keyval";
+import { set } from "idb-keyval";
 import {
-  EmailShareButton,
   LinkedinShareButton,
   FacebookShareButton,
   TwitterShareButton,
@@ -45,12 +39,11 @@ import {
 import "./RecentBox.css";
 const RecentBox = ({
   item,
-  isCategoryCard,
+
   searchModal,
   categoryName,
   recentBox,
 }) => {
-  // console.log("cheking category", item);
   const dispatch = useDispatch();
   const historyItems = useSelector((state) => state.isPlayed.value);
   const favouriteItems = useSelector((state) => state.isFavourite.value);
@@ -60,30 +53,18 @@ const RecentBox = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isFav, setIsFav] = useState(false);
   const [isCache, setIsCache] = useState(false);
-  const [isAudio, setIsAudio] = useState(undefined);
-  const [audioPlaylist, setAudioPlatlist] = useState([]);
   const [isPlay, setIsPlay] = useState(false);
   const [open, setOpen] = useState(false);
-  const [checked, setChecked] = React.useState(false);
-  const { name, image, audio, categories } = isCategoryCard ? item : item.node;
 
-  // console.log("search ", item);
-  // const categoryName = item.node.categories[0].categoryName;
+  const { name, image, audio, categories } = item;
 
-  // console.log("the item are", categories[0].categoryName);
-  // console.log("item is", item);
-  // const categoryName = isCategoryCard
-  //   ? item?.categories[0].categoryName
-  //   : item?.node?.categories[0].categoryName;
+  // console.log("item issssssssss", item);
+
   const URL = `http:${audio.file.url}`;
-  const theme = useTheme();
-  const matches = useMediaQuery("(min-width:600px)");
   const isMobile = useMediaQuery("(min-width:600px)");
-  // console.log("^^^^^" , item)
-  // console.log("Checking" , item)
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClickPopover = (event) => {
-    setChecked((prev) => !prev);
     setAnchorEl(event.currentTarget);
   };
   const handleClosePopover = () => {
@@ -128,7 +109,17 @@ const RecentBox = ({
       obj.node ? obj.node?.name === name : obj.name === name
     );
     if (!obj) {
-      dispatch(setIsPlayedItems(item));
+      if (item?.node) {
+        dispatch(setIsPlayedItems(item));
+      } else {
+        const obj = {
+          node: item,
+        };
+
+        dispatch(setIsPlayedItems(obj));
+
+        // console.log("item is", obj);
+      }
     }
   };
   const download = () => {
@@ -144,8 +135,17 @@ const RecentBox = ({
   };
   const setFavourite = () => {
     // let obj = historyItems.find(obj => obj?.node?.name === item.node.name)
-    // console.log("item is", item)
-    dispatch(setIsFavouriteItems(item));
+
+    if (item?.node) {
+      dispatch(setIsFavouriteItems(item));
+    } else {
+      const obj = {
+        node: item,
+      };
+      dispatch(setIsFavouriteItems(obj));
+      // console.log("item is", obj);
+    }
+
     setIsFav(true);
   };
   const removeFavourite = () => {
@@ -171,7 +171,16 @@ const RecentBox = ({
           fileName: name,
           fileData: newbase65,
         };
-        dispatch(setIsCacheItems(item));
+        if (item?.node) {
+          dispatch(setIsCacheItems(item));
+        } else {
+          const obj = {
+            node: item,
+          };
+          dispatch(setIsCacheItems(obj));
+
+          // console.log("item is", obj);
+        }
         await set(obj.fileName, JSON.stringify(obj));
         // console.log(
         //   `When we queried idb-keyval for 'hello', we found: ${whatDoWeHave}`
@@ -206,7 +215,7 @@ const RecentBox = ({
           name={name}
           categoryName={
             recentBox || searchModal
-              ? item.node.categories[0].categoryName
+              ? item.categories[0].categoryName
               : categoryName
           }
           audio={audio.file.url}
@@ -218,14 +227,14 @@ const RecentBox = ({
           <CardMedia
             component="img"
             sx={{
-              width: matches ? 120 : 100,
-              height: matches && !searchModal ? 130 : 110,
+              width: isMobile ? 120 : 100,
+              height: isMobile && !searchModal ? 130 : 110,
             }}
             image="https://add.nurulquran.com/images/song/164241245230.png"
             alt="Nurul Quran"
           />
           <Box>
-            <div style={{ display: "flex", height: matches && "65px" }}>
+            <div style={{ display: "flex", height: isMobile && "65px" }}>
               <CardContent sx={{ display: "flex" }}>
                 <>
                   {!isPlay ? (
@@ -259,10 +268,9 @@ const RecentBox = ({
             </div>
             <div className="icons">
               <Tooltip title="Download offline">
-                <IconButton>
+                <IconButton onClick={isCache ? removeCache : setCache}>
                   {!checkIDB ? (
                     <DownloadForOfflineIcon
-                      onClick={isCache ? removeCache : setCache}
                       sx={{ color: isCache ? "#24D366" : "#797979" }}
                     />
                   ) : (
@@ -271,20 +279,19 @@ const RecentBox = ({
                 </IconButton>
               </Tooltip>
               <Tooltip title="Add to favourite">
-                <IconButton>
+                <IconButton onClick={isFav ? removeFavourite : setFavourite}>
                   <FavoriteBorderIcon
-                    onClick={isFav ? removeFavourite : setFavourite}
                     sx={{ color: isFav ? "#F06464" : "#797979" }}
                   />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Download online">
-                <IconButton>
-                  <DownloadIcon onClick={download} />
+                <IconButton onClick={download}>
+                  <DownloadIcon />
                 </IconButton>
               </Tooltip>
-              <IconButton>
-                <ShareIcon onClick={handleClickPopover} />
+              <IconButton onClick={handleClickPopover}>
+                <ShareIcon />
               </IconButton>
               <Popover
                 id={id}

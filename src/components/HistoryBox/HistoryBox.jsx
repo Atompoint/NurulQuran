@@ -5,10 +5,10 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import IconButton from "@mui/material/IconButton";
 import AudioModal from "../Modal/AudioModal";
 import { setIsRemoveFavouriteItems } from "../../Redux/favouriteItems";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { removeCacheItems } from "../../Redux/cacheItems";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
-import { set, get, del } from "idb-keyval";
+import { get, del } from "idb-keyval";
 
 import { navigate } from "gatsby";
 
@@ -18,26 +18,15 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isAudio, setIsAudio] = useState("");
-  const allItems = useSelector((state) => state.items?.value || []);
-  const allAudios = allItems?.[0] || [];
   const [category, setCategory] = useState("");
 
-  const { name, image, audio, isCategory, redirectLink } = item.node || item;
-  // console.log("audios is", allAudios);
-  // const categoryName = item.node.categories[0].categoryName;
-  // const categoryName =
-  //   item?.categories[0].length > 0 && item?.categories[0].categoryName;
-
+  const { name, image, audio, isCategory, redirectLink, categories } = item;
   useEffect(() => {
-    let foundFavItem = allAudios.find(
-      (obj) => (obj.node ? obj.node?.name === name : obj.name === name)
-      // console.log(name, "-->", obj.node.name)
-    );
-    if (foundFavItem) {
-      setCategory(foundFavItem.node.categories[0].categoryName);
-      // console.log("**", );
+    if (categories) {
+      const categoryNameee = categories[0].categoryName;
+      setCategory(categoryNameee);
     }
-  }, []);
+  }, [categories]);
 
   const handleOpen = () => {
     if (isCategory) {
@@ -50,9 +39,6 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
   const handleOpenCache = async () => {
     //  //Retrieving base64 value from local Storage//
     const getAudio = await get(name);
-
-    // const getAudio = localStorage.getItem(name);
-    //  console.log("audio is" , getAudio)
 
     const audiodata = JSON.parse(getAudio);
     const audioFileOf = audiodata.fileData;
@@ -68,9 +54,6 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
     setIsAudio(audioElem.src);
     // console.log("cache " , audioElem.src)
     setIsOpen(true);
-
-    // audioElem.play()
-    // audioElem.pause()
   };
   function base64ToArrayBuffer(base64) {
     let binaryString = window.atob(base64);
@@ -88,7 +71,6 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
   };
   const removeCache = () => {
     dispatch(removeCacheItems(item));
-    // localStorage.removeItem(name);
     del(name);
   };
   return (
@@ -118,18 +100,12 @@ const HistoryBox = ({ isfavourite, item, isCache }) => {
           </Typography>
         </div>
         {isfavourite ? (
-          <IconButton>
-            <FavoriteBorderIcon
-              onClick={removeFavourite}
-              sx={{ color: "#F06464" }}
-            />
+          <IconButton onClick={removeFavourite}>
+            <FavoriteBorderIcon sx={{ color: "#F06464" }} />
           </IconButton>
         ) : isCache ? (
-          <IconButton>
-            <DownloadForOfflineIcon
-              onClick={removeCache}
-              sx={{ color: "#24D366" }}
-            />
+          <IconButton onClick={removeCache}>
+            <DownloadForOfflineIcon sx={{ color: "#24D366" }} />
           </IconButton>
         ) : (
           <></>

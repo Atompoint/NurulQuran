@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import RecentBox from "../RecentBox/RecentBox";
-import { listItemSecondaryActionClasses } from "@mui/material";
 
 const CategoryCard = ({ item, categoryName }) => {
   const [pageData, setPageData] = useState();
@@ -9,12 +8,12 @@ const CategoryCard = ({ item, categoryName }) => {
   useEffect(() => {
     if (item?.node?.subCategoryName) {
       setPageData(item?.node?.subCategoryName);
+      console.log("from parent", item?.node?.subCategoryName);
     } else {
       setPageData(item?.node?.pageData);
+      console.log("from child", item?.node?.pageData);
     }
-  }, []);
-  // console.log("from Parent Card" , item.node.subCategoryName)
-  // console.log("from Child Card" , item.node.pageData)
+  }, [item.node.subCategoryName, item.node.pageData]);
   return (
     <div>
       {pageData?.map((items, index) => {
@@ -26,19 +25,14 @@ const CategoryCard = ({ item, categoryName }) => {
                   <Grid key={index}>
                     <RecentBox
                       item={innerItem}
-                      isCategoryCard={true}
-                      categoryName={categoryName}
+                      categoryName={items.categoryName}
                     />
                   </Grid>
                 );
               })
             ) : (
-              <Grid>
-                <RecentBox
-                  item={items}
-                  isCategoryCard={true}
-                  categoryName={categoryName}
-                />
+              <Grid key={index}>
+                <RecentBox item={items} categoryName={categoryName} />
               </Grid>
             )}
           </div>

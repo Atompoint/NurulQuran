@@ -1,23 +1,12 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
 import "./RecentlyAdded.css";
 import Typography from "@mui/material/Typography";
 import RecentBox from "../RecentBox/RecentBox";
 import HistoryBox from "../HistoryBox/HistoryBox";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Scrollbars } from "react-custom-scrollbars";
-
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
 
 const RecentlyAdded = () => {
   const allItems = useSelector((state) => state.items.value);
@@ -46,7 +35,7 @@ const RecentlyAdded = () => {
                 return (
                   <div key={index}>
                     <Grid>
-                      <RecentBox item={items} recentBox={true} />
+                      <RecentBox item={items.node} recentBox={true} />
                     </Grid>
                   </div>
                 );
@@ -66,7 +55,7 @@ const RecentlyAdded = () => {
                 padding: matches ? "0rem 0rem" : "1rem 0rem",
               }}
             >
-              History
+              History List
             </Typography>
             <div className="recentlyAddedInnerHistorySec">
               <Scrollbars style={{ height: 240 }}>
@@ -74,7 +63,7 @@ const RecentlyAdded = () => {
                   return (
                     <div key={index}>
                       <Grid>
-                        <HistoryBox item={items} />
+                        <HistoryBox item={items.node} />
                       </Grid>
                     </div>
                   );
@@ -94,7 +83,7 @@ const RecentlyAdded = () => {
                 padding: matches ? "0rem 0rem" : "1rem 0rem",
               }}
             >
-              Favourite
+              Favourite List
             </Typography>
             <div className="recentlyAddedInnerFavouriteSec">
               <Scrollbars style={{ height: 240 }}>
@@ -102,7 +91,7 @@ const RecentlyAdded = () => {
                   return (
                     <div key={index}>
                       <Grid>
-                        <HistoryBox item={items} isfavourite={true} />
+                        <HistoryBox item={items.node} isfavourite={true} />
                       </Grid>
                     </div>
                   );

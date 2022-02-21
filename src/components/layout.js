@@ -44,7 +44,10 @@ const Layout = ({ children }) => {
       <footer className="footerSection">
         <Grid container>
           <Grid item xs={12} lg={8} className="footerHead">
-            <p>NurulQuran Ⓒ2022 powered by Atompoint</p>
+            <p>
+              NurulQuran Ⓒ 2022 {!isMobile && <br />}
+              powered by Atompoint
+            </p>
           </Grid>
           <Grid item xs={0} lg={4} className="footerInnerSection"></Grid>
         </Grid>

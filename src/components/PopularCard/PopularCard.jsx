@@ -22,7 +22,17 @@ const PopularCard = ({ item }) => {
       obj.node ? obj.node?.name === name : obj.name === name
     );
     if (!obj) {
-      dispatch(setIsPlayedItems(item));
+      if (item?.node) {
+        dispatch(setIsPlayedItems(item));
+      } else {
+        const obj = {
+          node: item,
+        };
+
+        dispatch(setIsPlayedItems(obj));
+
+        // console.log("item is", obj);
+      }
     }
   };
 
