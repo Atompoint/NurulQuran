@@ -1,5 +1,5 @@
 .recentlyAddedSec {
-  margin: 5rem 0rem;
+  margin: 4rem 0rem;
   
 }
 .recentlyAddedLeftSec {
@@ -36,4 +36,14 @@
 
 .recentHead {
   margin-left: 3rem;
+}
+
+@media only screen and (max-width: 600px) {
+
+  .recentlyAddedSec {
+    margin: 3rem 0rem;
+    
+  }
+
+
 }

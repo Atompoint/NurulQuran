@@ -34,7 +34,7 @@ const Layout = ({ children }) => {
         style={{
           margin: `0 auto`,
           padding: isMobile ? "0rem 2rem" : "0rem 1rem",
-          marginLeft: margin && matches ? "240px" : "0px",
+          marginLeft: margin && matches ? "0px" : "0px",
           transition: "all 300ms ease-in-out",
           // padding: `0 1.0875rem 1.45rem`,
         }}

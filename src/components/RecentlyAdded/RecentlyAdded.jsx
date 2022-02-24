@@ -53,6 +53,7 @@ const RecentlyAdded = () => {
               sx={{
                 fontWeight: "bold",
                 padding: matches ? "0rem 0rem" : "1rem 0rem",
+                marginTop: matches ? "0rem" : "1rem",
               }}
             >
               History List
@@ -81,6 +82,7 @@ const RecentlyAdded = () => {
               sx={{
                 fontWeight: "bold",
                 padding: matches ? "0rem 0rem" : "1rem 0rem",
+                marginTop: matches ? "2rem" : "1rem",
               }}
             >
               Favourite List

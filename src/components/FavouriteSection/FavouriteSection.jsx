@@ -21,7 +21,7 @@ const FavouriteSection = () => {
             gutterBottom
             component="div"
             color="#106B66"
-            sx={{ fontWeight: "bold", padding: "1rem 0rem" }}
+            sx={{ fontWeight: "bold", marginTop: matches ? "0rem" : "1rem" }}
           >
             Favourite List
           </Typography>
@@ -45,7 +45,7 @@ const FavouriteSection = () => {
             gutterBottom
             component="div"
             color="#106B66"
-            sx={{ fontWeight: "bold", padding: "1rem 0rem" }}
+            sx={{ fontWeight: "bold", marginTop: matches ? "0rem" : "1rem" }}
           >
             Offline List
           </Typography>
